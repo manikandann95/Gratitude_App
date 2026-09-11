@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>30-Day Challenges | Cosmos</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><div class="logo-icon">&#10022;</div><span>Cosmos</span></a>
+      <div class="nav-links">
+        <a href="daily.html">Daily</a><a href="categories.html">Explore</a><a href="journal.html">Journal</a>
+        <a href="scripting.html">Scripting</a><a href="vision-board.html">Vision</a>
+        <a href="music.html">Music</a><a href="calendar.html">Calendar</a>
+        <a href="challenges.html" class="active">Challenges</a><a href="report.html">Reports</a><a href="creator.html">Creator</a>
+        <div class="nav-dropdown">
+          <a href="community.html">Community &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="community.html"><span class="dm-icon">&#128101;</span>Spaces</a>
+            <a href="community/events.html"><span class="dm-icon">&#128197;</span>Events</a>
+            <a href="community/tribe.html"><span class="dm-icon">&#127942;</span>Tribe</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="grow.html">Grow &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="grow.html"><span class="dm-icon">&#129680;</span>Practices</a>
+            <a href="grow.html?tab=courses"><span class="dm-icon">&#127891;</span>Courses</a>
+            <a href="challenges.html"><span class="dm-icon">&#127942;</span>Challenges</a>
+          </div>
+        </div>
+      </div>
+      <button class="theme-toggle" id="themeToggle">&#9789;</button>
+      <button class="hamburger" id="hamburger">&#9776;</button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="daily.html">Daily</a><a href="categories.html">Explore</a><a href="journal.html">Journal</a>
+      <a href="scripting.html">Scripting</a><a href="vision-board.html">Vision</a><a href="music.html">Music</a>
+      <a href="calendar.html">Calendar</a><a href="challenges.html">Challenges</a>
+      <a href="report.html">Reports</a><a href="creator.html">Creator</a>
+        <div class="nav-dropdown">
+          <a href="community.html">Community &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="community.html"><span class="dm-icon">&#128101;</span>Spaces</a>
+            <a href="community/events.html"><span class="dm-icon">&#128197;</span>Events</a>
+            <a href="community/tribe.html"><span class="dm-icon">&#127942;</span>Tribe</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="grow.html">Grow &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="grow.html"><span class="dm-icon">&#129680;</span>Practices</a>
+            <a href="grow.html?tab=courses"><span class="dm-icon">&#127891;</span>Courses</a>
+            <a href="challenges.html"><span class="dm-icon">&#127942;</span>Challenges</a>
+          </div>
+        </div>
+    </div>
+  </nav>
+
+  <div class="page-hero">
+    <div class="page-hero-icon">&#127942;</div>
+    <h1>30-Day Challenges</h1>
+    <p>Commit to 30 days of transformation. Complete each day to earn gold coins and build life-changing habits.</p>
+  </div>
+
+  <section style="padding:20px 0 100px">
+    <div class="container">
+      <!-- Active Challenge -->
+      <div id="activeChallengeSection" class="glass" style="border-radius:20px;padding:28px;margin-bottom:24px;display:none">
+        <div class="challenge-header">
+          <div>
+            <div class="section-badge" style="margin-bottom:8px">&#9654; Active Challenge</div>
+            <h2 id="activeChallengeTitle" style="font-family:var(--font-display);font-size:1.5rem;margin-bottom:4px"></h2>
+            <p id="activeChallengeDesc" style="color:var(--text-secondary);font-size:0.9rem"></p>
+          </div>
+          <div style="text-align:center">
+            <div id="activeDayCount" style="font-size:2.5rem;font-weight:800;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text"></div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">days completed</div>
+          </div>
+        </div>
+        <div class="progress-bar" style="margin-bottom:20px"><div class="progress-fill" id="challengeProgressBar" style="width:0%"></div></div>
+        <div class="challenge-grid-30" id="challengeGrid"></div>
+        <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="markToday()">&#9989; Mark Today Complete (+10 &#128176;)</button>
+          <button class="btn btn-ghost btn-sm" onclick="abandonChallenge()" style="color:#f87171">Abandon Challenge</button>
+        </div>
+      </div>
+
+      <!-- Pick a Challenge -->
+      <div id="pickChallengeSection">
+        <div class="section-badge" style="margin-bottom:16px">&#127942; Choose Your Challenge</div>
+        <div class="challenges-list" id="challengesList"></div>
+      </div>
+    </div>
+  </section>
+
+  <script src="js/app.js"></script>
+  <script src="js/coins.js"></script>
+  <script src="js/challenges.js"></script>
+<script>
+document.querySelectorAll(".nav-dropdown > a").forEach(function(a){
+  a.addEventListener("click",function(e){if(window.innerWidth<=900){e.preventDefault();a.parentElement.classList.toggle("open");}});
+});
+</script>
+</body>
+</html>
+

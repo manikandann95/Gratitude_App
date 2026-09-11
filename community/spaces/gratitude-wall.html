@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Gratitude Wall | Cosmos Community</title>
+<link rel="stylesheet" href="../../css/style.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+</head><body>
+<div class="stars" id="stars"></div>
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="../../index.html" class="nav-logo"><div class="logo-icon">&#10022;</div><span>Cosmos</span></a>
+    <div class="nav-links">
+      <a href="../../daily.html">Daily</a>
+      <div class="nav-dropdown"><a href="../../community.html" class="active">Community &#9662;</a>
+        <div class="dropdown-menu">
+          <a href="../../community.html"><span class="dm-icon">&#128101;</span>Spaces</a>
+          <a href="../../community/events.html"><span class="dm-icon">&#128197;</span>Events</a>
+          <a href="../../community/tribe.html"><span class="dm-icon">&#127942;</span>Tribe</a>
+        </div>
+      </div>
+      <div class="nav-dropdown"><a href="../../grow.html">Grow &#9662;</a>
+        <div class="dropdown-menu">
+          <a href="../../grow.html"><span class="dm-icon">&#129680;</span>Practices</a>
+          <a href="../../grow.html?tab=courses"><span class="dm-icon">&#127891;</span>Courses</a>
+        </div>
+      </div>
+    </div>
+    <button class="theme-toggle" id="themeToggle">&#9789;</button>
+    <button class="hamburger" id="hamburger">&#9776;</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../../community.html">Community</a><a href="../../grow.html">Grow</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-icon">&#128149;</div>
+  <h1>Gratitude Wall</h1>
+  <p>What are you grateful for today? Share your gratitude and watch the energy multiply.</p>
+  <div style="margin-top:12px"><a href="../../community.html" style="color:var(--text-muted);font-size:0.8rem;text-decoration:none">&#8592; Back to Community</a></div>
+</div>
+
+<section style="padding:20px 0 100px"><div class="container" style="max-width:760px">
+  <div class="glass" style="border-radius:16px;padding:18px 22px;margin-bottom:16px;display:flex;gap:12px;align-items:center">
+    <div id="myAvatar" class="avatar-circle" style="background:#4ade80">M</div>
+    <input id="myNameInput" class="name-input" placeholder="Your display name..." oninput="updateMyName(this.value)"/>
+  </div>
+  <div class="post-create-box">
+    <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+      <span style="font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center">Category:</span>
+      <button class="filter-chip active" id="cat-General" onclick="setCat('General',this)">&#10022; General</button>
+      <button class="filter-chip" id="cat-Health" onclick="setCat('Health',this)">&#127807; Health</button>
+      <button class="filter-chip" id="cat-Wealth" onclick="setCat('Wealth',this)">&#128176; Wealth</button>
+      <button class="filter-chip" id="cat-Love" onclick="setCat('Love',this)">&#128149; Love</button>
+      <button class="filter-chip" id="cat-Career" onclick="setCat('Career',this)">&#128640; Career</button>
+      <button class="filter-chip" id="cat-Family" onclick="setCat('Family',this)">&#127968; Family</button>
+    </div>
+    <textarea class="post-textarea" id="postInput" style="width:100%;margin-bottom:10px" placeholder="I am grateful for..."></textarea>
+    <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="submitPost()">&#128149; Share Gratitude</button></div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px" id="filterRow">
+    <button class="filter-chip active" onclick="filterCat('all',this)">All</button>
+    <button class="filter-chip" onclick="filterCat('General',this)">General</button>
+    <button class="filter-chip" onclick="filterCat('Health',this)">Health</button>
+    <button class="filter-chip" onclick="filterCat('Wealth',this)">Wealth</button>
+    <button class="filter-chip" onclick="filterCat('Love',this)">Love</button>
+    <button class="filter-chip" onclick="filterCat('Career',this)">Career</button>
+  </div>
+  <div id="postsContainer"></div>
+</div></section>
+
+<script src="../../js/app.js"></script>
+<script src="../../js/coins.js"></script>
+<script src="../../js/community.js"></script>
+<script>
+const SPACE_ID = 'gratitude-wall';
+let selectedCat = 'General';
+let filterVal = 'all';
+const catColors = { General:'green', Health:'green', Wealth:'gold', Love:'pink', Career:'blue', Family:'purple' };
+
+function updateMyName(v) {
+  Community.setName(v);
+  const av = document.getElementById('myAvatar');
+  if (av && v) { av.textContent = v[0].toUpperCase(); av.style.background = Community.hashColor(v); }
+}
+function setCat(c, btn) {
+  selectedCat = c;
+  document.querySelectorAll('.post-create-box .filter-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function filterCat(f, btn) {
+  filterVal = f;
+  document.querySelectorAll('#filterRow .filter-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAll();
+}
+function submitPost() {
+  const name = document.getElementById('myNameInput').value.trim();
+  if (!name) { showToast('Enter your name!'); return; }
+  Community.setName(name);
+  const msg = document.getElementById('postInput').value.trim();
+  if (!msg) { showToast('Write your gratitude!'); return; }
+  Community.addPost(SPACE_ID, msg, [selectedCat], { category: selectedCat });
+  document.getElementById('postInput').value = '';
+  renderAll();
+  showToast('Gratitude shared! &#128149;');
+}
+function renderAll() {
+  let posts = Community.getPosts(SPACE_ID).sort((a,b) => b.timestamp - a.timestamp);
+  if (filterVal !== 'all') posts = posts.filter(p => (p.extra||{}).category === filterVal);
+  const c = document.getElementById('postsContainer');
+  if (!posts.length) {
+    c.innerHTML = '<div style="text-align:center;padding:60px;color:var(--text-muted)">&#128149; No gratitude shared yet. Start the wave!</div>';
+    return;
+  }
+  c.innerHTML = posts.map(p => {
+    const pcat = (p.extra||{}).category || 'General';
+    const extraHtml = () => '<div style="margin-bottom:8px"><span class="tag-chip ' + (catColors[pcat]||'green') + '">&#10022; ' + pcat + '</span></div>';
+    return Community.renderPost(p, SPACE_ID, { extraHtml });
+  }).join('');
+}
+window.currentSpaceRender = renderAll;
+const n = Community.getMyName();
+const inp = document.getElementById('myNameInput');
+if (inp && n !== 'Anonymous') { inp.value = n; updateMyName(n); }
+renderAll();
+document.querySelectorAll('.nav-dropdown > a').forEach(a => {
+  a.addEventListener('click', e => { if(window.innerWidth<=768){e.preventDefault();a.parentElement.classList.toggle('open');} });
+});
+</script>
+</body></html>

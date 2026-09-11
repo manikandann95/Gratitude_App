@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gratitude Scripting | Cosmos</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    .script-category-tabs { display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px; }
+    .sct-btn { padding:8px 18px;border-radius:100px;border:1px solid var(--border-glass);background:var(--bg-glass);color:var(--text-secondary);font-size:0.82rem;font-weight:600;cursor:pointer;transition:var(--transition);font-family:var(--font-main); }
+    .sct-btn.active { background:var(--gradient-primary);color:#fff;border-color:transparent; }
+    .saved-scripts { display:flex;flex-direction:column;gap:10px; }
+    .saved-script-item { padding:16px 20px;border-radius:12px;border:1px solid var(--border-glass);background:var(--bg-glass); }
+    .saved-script-item h4 { font-size:0.9rem;font-weight:600;margin-bottom:4px; }
+    .saved-script-item p { font-size:0.82rem;color:var(--text-secondary);line-height:1.5; }
+    .saved-script-item .meta { font-size:0.72rem;color:var(--text-muted);margin-top:8px; }
+    .word-count { font-size:0.75rem;color:var(--text-muted);text-align:right; }
+  </style>
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><div class="logo-icon">&#10022;</div><span>Cosmos</span></a>
+      <div class="nav-links">
+        <a href="daily.html">Daily</a><a href="categories.html">Explore</a><a href="journal.html">Journal</a>
+        <a href="scripting.html" class="active">Scripting</a><a href="vision-board.html">Vision</a>
+        <a href="music.html">Music</a><a href="calendar.html">Calendar</a>
+        <a href="challenges.html">Challenges</a><a href="report.html">Reports</a><a href="creator.html">Creator</a>
+        <div class="nav-dropdown">
+          <a href="community.html">Community &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="community.html"><span class="dm-icon">&#128101;</span>Spaces</a>
+            <a href="community/events.html"><span class="dm-icon">&#128197;</span>Events</a>
+            <a href="community/tribe.html"><span class="dm-icon">&#127942;</span>Tribe</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="grow.html">Grow &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="grow.html"><span class="dm-icon">&#129680;</span>Practices</a>
+            <a href="grow.html?tab=courses"><span class="dm-icon">&#127891;</span>Courses</a>
+            <a href="challenges.html"><span class="dm-icon">&#127942;</span>Challenges</a>
+          </div>
+        </div>
+      </div>
+      <button class="theme-toggle" id="themeToggle">&#9789;</button>
+      <button class="hamburger" id="hamburger">&#9776;</button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="daily.html">Daily Practice</a><a href="categories.html">Explore</a>
+      <a href="journal.html">Journal</a><a href="scripting.html">Scripting</a>
+    </div>
+  </nav>
+
+  <div class="page-hero">
+    <div class="page-hero-icon">&#9997;&#65039;</div>
+    <h1>Gratitude Scripting</h1>
+    <p>Write your desired reality as if it has already happened. Scripting is one of the most powerful manifestation tools available to you.</p>
+  </div>
+
+  <section class="scripting-section">
+    <div class="container">
+      <!-- What is Scripting? -->
+      <div class="glass" style="border-radius:20px;padding:32px;margin-bottom:24px;display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <div>
+          <h2 style="font-family:var(--font-display);font-size:1.4rem;margin-bottom:12px">What is Gratitude Scripting?</h2>
+          <p style="color:var(--text-secondary);font-size:0.95rem;line-height:1.8;margin-bottom:12px">Scripting is the practice of writing about your desires <strong>as if they have already manifested</strong>. You write in first person, present tense, with deep gratitude and emotion.</p>
+          <p style="color:var(--text-secondary);font-size:0.95rem;line-height:1.8">This technique reprograms your subconscious mind, aligns your vibration with your goals, and accelerates manifestation through the law of attraction.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div class="tip-item glass" style="background:rgba(155,125,234,0.08);border-color:rgba(155,125,234,0.2)"><div class="tip-icon">&#10024;</div><div><h4>Write in Present Tense</h4><p>Use "I am", "I have", "I feel" — not "I want" or "I will have"</p></div></div>
+          <div class="tip-item glass" style="background:rgba(236,72,153,0.08);border-color:rgba(236,72,153,0.2)"><div class="tip-icon">&#128149;</div><div><h4>Feel the Emotions</h4><p>As you write, feel the gratitude and joy as if it is real right now</p></div></div>
+          <div class="tip-item glass" style="background:rgba(74,222,128,0.08);border-color:rgba(74,222,128,0.2)"><div class="tip-icon">&#127807;</div><div><h4>Be Specific &amp; Vivid</h4><p>Include sensory details. What do you see, feel, hear, smell?</p></div></div>
+        </div>
+      </div>
+
+      <div class="scripting-layout">
+        <!-- Prompts Panel -->
+        <div class="script-prompts glass">
+          <h3 style="font-size:1rem;font-weight:700;margin-bottom:16px">&#9997; Scripting Prompts</h3>
+          <div class="script-category-tabs">
+            <button class="sct-btn active" onclick="showScriptCat('all',this)">All</button>
+            <button class="sct-btn" onclick="showScriptCat('health',this)">Health</button>
+            <button class="sct-btn" onclick="showScriptCat('wealth',this)">Wealth</button>
+            <button class="sct-btn" onclick="showScriptCat('career',this)">Career</button>
+            <button class="sct-btn" onclick="showScriptCat('peace',this)">Peace</button>
+            <button class="sct-btn" onclick="showScriptCat('freedom',this)">Freedom</button>
+          </div>
+          <div class="prompt-list" id="promptList"></div>
+          <button class="btn btn-ghost btn-sm" onclick="loadMorePrompts()" style="width:100%;margin-top:8px">Load More Prompts</button>
+        </div>
+
+        <!-- Editor Panel -->
+        <div class="script-editor glass">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+            <h3 style="font-size:1rem;font-weight:700">&#128218; Your Script</h3>
+            <span class="word-count" id="wordCount">0 words</span>
+          </div>
+          <input type="text" id="scriptTitle" placeholder="Script title (e.g. My Dream Life in 2027)" style="background:rgba(255,255,255,0.05);border:1px solid var(--border-glass);border-radius:10px;padding:10px 16px;color:var(--text-primary);font-family:var(--font-main);font-size:0.9rem;width:100%;margin-bottom:12px" />
+          <textarea id="scriptContent" style="flex:1;min-height:380px;background:rgba(255,255,255,0.04);border:1px solid var(--border-glass);border-radius:12px;padding:20px;color:var(--text-primary);font-family:var(--font-display);font-size:1rem;line-height:1.9;resize:vertical;width:100%;font-style:italic" placeholder="I am so grateful and happy now that..." oninput="countWords()"></textarea>
+          <div class="script-actions" style="margin-top:12px">
+            <button class="btn btn-primary" onclick="saveScript()">&#128190; Save Script</button>
+            <button class="btn btn-ghost" onclick="copyScript()">&#128203; Copy</button>
+            <button class="btn btn-ghost" onclick="clearScript()">&#8635; Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Saved Scripts -->
+      <div class="glass" style="border-radius:20px;padding:32px;margin-top:24px">
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:20px">&#127775; Your Saved Scripts</h3>
+        <div class="saved-scripts" id="savedScriptsList">
+          <div class="empty-state">No scripts yet. Write your first script above!</div>
+        </div>
+      </div>
+
+      <!-- Scripting Ideas by Category -->
+      <div style="margin-top:40px">
+        <div class="section-header" style="margin-bottom:32px">
+          <div class="section-badge">&#10022; Ideas</div>
+          <h2>Scripting Ideas by Life Area</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px">
+          <div class="glass" style="border-radius:20px;padding:28px">
+            <div style="font-size:2rem;margin-bottom:12px">&#127807;</div>
+            <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:12px">Health Scripting</h3>
+            <ul style="color:var(--text-secondary);font-size:0.85rem;line-height:2;list-style:none">
+              <li>&#10022; My ideal healthy body &amp; energy</li>
+              <li>&#10022; Waking up feeling vibrant each day</li>
+              <li>&#10022; My perfect morning wellness routine</li>
+              <li>&#10022; My relationship with food and nourishment</li>
+              <li>&#10022; My mental clarity and emotional peace</li>
+            </ul>
+          </div>
+          <div class="glass" style="border-radius:20px;padding:28px">
+            <div style="font-size:2rem;margin-bottom:12px">&#128176;</div>
+            <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:12px">Wealth Scripting</h3>
+            <ul style="color:var(--text-secondary);font-size:0.85rem;line-height:2;list-style:none">
+              <li>&#10022; My abundant bank account and savings</li>
+              <li>&#10022; Multiple streams of income flowing in</li>
+              <li>&#10022; Living in my dream home</li>
+              <li>&#10022; Traveling freely and luxuriously</li>
+              <li>&#10022; Giving generously to causes I love</li>
+            </ul>
+          </div>
+          <div class="glass" style="border-radius:20px;padding:28px">
+            <div style="font-size:2rem;margin-bottom:12px">&#128640;</div>
+            <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:12px">Career Scripting</h3>
+            <ul style="color:var(--text-secondary);font-size:0.85rem;line-height:2;list-style:none">
+              <li>&#10022; My dream job or business success</li>
+              <li>&#10022; Being recognized and valued at work</li>
+              <li>&#10022; Leading a team that loves what we do</li>
+              <li>&#10022; Launching my passion project</li>
+              <li>&#10022; The impact I create in the world</li>
+            </ul>
+          </div>
+          <div class="glass" style="border-radius:20px;padding:28px">
+            <div style="font-size:2rem;margin-bottom:12px">&#128154;</div>
+            <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:12px">Inner Peace Scripting</h3>
+            <ul style="color:var(--text-secondary);font-size:0.85rem;line-height:2;list-style:none">
+              <li>&#10022; My calm and centered inner state</li>
+              <li>&#10022; My loving and harmonious relationships</li>
+              <li>&#10022; Freedom from anxiety and fear</li>
+              <li>&#10022; My daily meditation and stillness</li>
+              <li>&#10022; Feeling complete and whole</li>
+            </ul>
+          </div>
+          <div class="glass" style="border-radius:20px;padding:28px">
+            <div style="font-size:2rem;margin-bottom:12px">&#127775;</div>
+            <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:12px">Financial Freedom Scripting</h3>
+            <ul style="color:var(--text-secondary);font-size:0.85rem;line-height:2;list-style:none">
+              <li>&#10022; Being completely debt-free</li>
+              <li>&#10022; Passive income that covers all expenses</li>
+              <li>&#10022; Choosing when and how I work</li>
+              <li>&#10022; My investment portfolio growing</li>
+              <li>&#10022; The freedom to say yes to life</li>
+            </ul>
+          </div>
+          <div class="glass" style="border-radius:20px;padding:28px">
+            <div style="font-size:2rem;margin-bottom:12px">&#128149;</div>
+            <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:12px">Relationships Scripting</h3>
+            <ul style="color:var(--text-secondary);font-size:0.85rem;line-height:2;list-style:none">
+              <li>&#10022; My loving, supportive partnership</li>
+              <li>&#10022; Deep friendships that nourish my soul</li>
+              <li>&#10022; Harmonious family relationships</li>
+              <li>&#10022; Being surrounded by positive people</li>
+              <li>&#10022; My community and sense of belonging</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand"><div class="logo-icon">&#10022;</div><span>Cosmos Gratitude</span></div>
+      <div class="footer-links"><a href="index.html">Home</a><a href="daily.html">Daily</a><a href="journal.html">Journal</a></div>
+      <p class="footer-copy">&copy; 2026 Cosmos Gratitude App</p>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script src="js/coins.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/scripting.js"></script>
+<script>
+document.querySelectorAll(".nav-dropdown > a").forEach(function(a){
+  a.addEventListener("click",function(e){if(window.innerWidth<=900){e.preventDefault();a.parentElement.classList.toggle("open");}});
+});
+</script>
+</body>
+</html>
+
+

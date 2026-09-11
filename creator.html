@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creator | Cosmos Gratitude</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><div class="logo-icon">&#10022;</div><span>Cosmos</span></a>
+      <div class="nav-links">
+        <a href="daily.html">Daily</a><a href="categories.html">Explore</a><a href="journal.html">Journal</a>
+        <a href="scripting.html">Scripting</a><a href="vision-board.html">Vision</a>
+        <a href="music.html">Music</a><a href="calendar.html">Calendar</a>
+        <a href="challenges.html">Challenges</a><a href="report.html">Reports</a><a href="creator.html" class="active">Creator</a>
+        <div class="nav-dropdown">
+          <a href="community.html">Community &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="community.html"><span class="dm-icon">&#128101;</span>Spaces</a>
+            <a href="community/events.html"><span class="dm-icon">&#128197;</span>Events</a>
+            <a href="community/tribe.html"><span class="dm-icon">&#127942;</span>Tribe</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="grow.html">Grow &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="grow.html"><span class="dm-icon">&#129680;</span>Practices</a>
+            <a href="grow.html?tab=courses"><span class="dm-icon">&#127891;</span>Courses</a>
+            <a href="challenges.html"><span class="dm-icon">&#127942;</span>Challenges</a>
+          </div>
+        </div>
+      </div>
+      <button class="theme-toggle" id="themeToggle">&#9789;</button>
+      <button class="hamburger" id="hamburger">&#9776;</button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="daily.html">Daily</a><a href="categories.html">Explore</a><a href="journal.html">Journal</a>
+      <a href="scripting.html">Scripting</a><a href="vision-board.html">Vision</a><a href="music.html">Music</a>
+      <a href="calendar.html">Calendar</a><a href="challenges.html">Challenges</a>
+      <a href="report.html">Reports</a><a href="creator.html">Creator</a>
+        <div class="nav-dropdown">
+          <a href="community.html">Community &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="community.html"><span class="dm-icon">&#128101;</span>Spaces</a>
+            <a href="community/events.html"><span class="dm-icon">&#128197;</span>Events</a>
+            <a href="community/tribe.html"><span class="dm-icon">&#127942;</span>Tribe</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="grow.html">Grow &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="grow.html"><span class="dm-icon">&#129680;</span>Practices</a>
+            <a href="grow.html?tab=courses"><span class="dm-icon">&#127891;</span>Courses</a>
+            <a href="challenges.html"><span class="dm-icon">&#127942;</span>Challenges</a>
+          </div>
+        </div>
+    </div>
+  </nav>
+
+  <div class="page-hero">
+    <div class="page-hero-icon">&#10024;</div>
+    <h1>Creator Studio</h1>
+    <p>Craft your own affirmations and quotes. Personalized words carry far more power than any generic script.</p>
+  </div>
+
+  <section style="padding:20px 0 100px">
+    <div class="container">
+      <div class="creator-tabs">
+        <button class="tab-btn active" onclick="switchCreator('affirmations',this)">&#10024; Affirmations</button>
+        <button class="tab-btn" onclick="switchCreator('quotes',this)">&#128218; Quotes</button>
+        <button class="tab-btn" onclick="switchCreator('notifications',this)">&#128276; Reminders</button>
+      </div>
+
+      <!-- AFFIRMATIONS CREATOR -->
+      <div class="creator-panel active" id="panel-affirmations">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px" id="affGrid">
+          <div class="glass" style="border-radius:20px;padding:28px">
+            <h3 style="font-size:1rem;font-weight:700;margin-bottom:20px">&#10024; Create Affirmation</h3>
+            <div style="margin-bottom:16px">
+              <label style="font-size:0.82rem;color:var(--text-muted);display:block;margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em">Category</label>
+              <select id="affCategory" style="width:100%;background:var(--bg-glass);border:1px solid var(--border-glass);border-radius:10px;padding:10px 14px;color:var(--text-primary);font-family:var(--font-main);font-size:0.9rem">
+                <option value="health">&#127807; Health</option>
+                <option value="wealth">&#128176; Wealth</option>
+                <option value="career">&#128640; Career</option>
+                <option value="peace">&#128154; Inner Peace</option>
+                <option value="self-love">&#127800; Self-Love</option>
+                <option value="relationship">&#128149; Relationship</option>
+                <option value="power">&#9889; Power</option>
+                <option value="custom">&#10024; Custom</option>
+              </select>
+            </div>
+            <div style="margin-bottom:16px">
+              <label style="font-size:0.82rem;color:var(--text-muted);display:block;margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em">Your Affirmation</label>
+              <textarea id="affText" class="journal-textarea" style="min-height:120px" placeholder="I am... / I have... / I feel... / I attract...&#10;&#10;Write in present tense as if it is already true."></textarea>
+            </div>
+            <div style="background:rgba(155,125,234,0.08);border:1px solid rgba(155,125,234,0.2);border-radius:10px;padding:14px;margin-bottom:16px;font-size:0.82rem;color:var(--text-secondary)">
+              &#128161; <strong>Tips:</strong> Use "I am", "I have", "I feel". Make it specific. Say it with emotion. Present tense only.
+            </div>
+            <button class="btn btn-primary" style="width:100%" onclick="saveAffirmation()">&#128190; Save Affirmation</button>
+          </div>
+
+          <div class="glass" style="border-radius:20px;padding:28px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+              <h3 style="font-size:1rem;font-weight:700">&#127775; My Affirmations</h3>
+              <select id="filterAff" onchange="loadAffirmations()" style="background:var(--bg-glass);border:1px solid var(--border-glass);border-radius:8px;padding:6px 10px;color:var(--text-secondary);font-family:var(--font-main);font-size:0.8rem">
+                <option value="all">All</option>
+                <option value="health">Health</option>
+                <option value="wealth">Wealth</option>
+                <option value="career">Career</option>
+                <option value="self-love">Self-Love</option>
+                <option value="relationship">Relationship</option>
+                <option value="power">Power</option>
+                <option value="peace">Peace</option>
+                <option value="custom">Custom</option>
+              </select>
+            </div>
+            <div class="created-items" id="affList">
+              <div class="empty-state">No affirmations yet. Create your first one!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUOTES CREATOR -->
+      <div class="creator-panel" id="panel-quotes">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px" id="quoteGrid">
+          <div class="glass" style="border-radius:20px;padding:28px">
+            <h3 style="font-size:1rem;font-weight:700;margin-bottom:20px">&#128218; Create Quote</h3>
+            <div style="margin-bottom:16px">
+              <label style="font-size:0.82rem;color:var(--text-muted);display:block;margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em">Quote</label>
+              <textarea id="quoteText" class="journal-textarea" style="min-height:100px" placeholder="Your wisdom, your insight, your truth..."></textarea>
+            </div>
+            <div style="margin-bottom:16px">
+              <label style="font-size:0.82rem;color:var(--text-muted);display:block;margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em">Author / Source (optional)</label>
+              <input type="text" id="quoteAuthor" placeholder="Your Name, or leave blank" style="width:100%;background:var(--bg-glass);border:1px solid var(--border-glass);border-radius:10px;padding:10px 14px;color:var(--text-primary);font-family:var(--font-main);font-size:0.9rem" />
+            </div>
+            <button class="btn btn-primary" style="width:100%" onclick="saveQuote()">&#128190; Save Quote</button>
+          </div>
+
+          <div class="glass" style="border-radius:20px;padding:28px">
+            <h3 style="font-size:1rem;font-weight:700;margin-bottom:16px">&#127775; My Quotes</h3>
+            <div class="created-items" id="quoteList">
+              <div class="empty-state">No quotes yet. Capture your wisdom!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NOTIFICATIONS -->
+      <div class="creator-panel" id="panel-notifications">
+        <div class="glass" style="border-radius:20px;padding:32px">
+          <h3 style="font-size:1rem;font-weight:700;margin-bottom:20px">&#128276; Daily Reminder Settings</h3>
+          <div id="notifSettingsContainer"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="js/app.js"></script>
+  <script src="js/coins.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/creator.js"></script>
+<script>
+document.querySelectorAll(".nav-dropdown > a").forEach(function(a){
+  a.addEventListener("click",function(e){if(window.innerWidth<=900){e.preventDefault();a.parentElement.classList.toggle("open");}});
+});
+</script>
+</body>
+</html>
+

@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vision Board | Cosmos Gratitude</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><div class="logo-icon">&#10022;</div><span>Cosmos</span></a>
+      <div class="nav-links">
+        <a href="daily.html">Daily</a><a href="categories.html">Explore</a><a href="journal.html">Journal</a>
+        <a href="scripting.html">Scripting</a><a href="vision-board.html" class="active">Vision</a>
+        <a href="music.html">Music</a><a href="calendar.html">Calendar</a><a href="challenges.html">Challenges</a>
+        <a href="report.html">Reports</a><a href="creator.html">Creator</a>
+        <div class="nav-dropdown">
+          <a href="community.html">Community &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="community.html"><span class="dm-icon">&#128101;</span>Spaces</a>
+            <a href="community/events.html"><span class="dm-icon">&#128197;</span>Events</a>
+            <a href="community/tribe.html"><span class="dm-icon">&#127942;</span>Tribe</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="grow.html">Grow &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="grow.html"><span class="dm-icon">&#129680;</span>Practices</a>
+            <a href="grow.html?tab=courses"><span class="dm-icon">&#127891;</span>Courses</a>
+            <a href="challenges.html"><span class="dm-icon">&#127942;</span>Challenges</a>
+          </div>
+        </div>
+      </div>
+      <button class="theme-toggle" id="themeToggle">&#9789;</button>
+      <button class="hamburger" id="hamburger">&#9776;</button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="daily.html">Daily</a><a href="categories.html">Explore</a><a href="journal.html">Journal</a>
+      <a href="scripting.html">Scripting</a><a href="vision-board.html">Vision Board</a>
+      <a href="music.html">Music</a><a href="calendar.html">Calendar</a>
+      <a href="challenges.html">Challenges</a><a href="report.html">Reports</a><a href="creator.html">Creator</a>
+        <div class="nav-dropdown">
+          <a href="community.html">Community &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="community.html"><span class="dm-icon">&#128101;</span>Spaces</a>
+            <a href="community/events.html"><span class="dm-icon">&#128197;</span>Events</a>
+            <a href="community/tribe.html"><span class="dm-icon">&#127942;</span>Tribe</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="grow.html">Grow &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="grow.html"><span class="dm-icon">&#129680;</span>Practices</a>
+            <a href="grow.html?tab=courses"><span class="dm-icon">&#127891;</span>Courses</a>
+            <a href="challenges.html"><span class="dm-icon">&#127942;</span>Challenges</a>
+          </div>
+        </div>
+    </div>
+  </nav>
+
+  <div class="page-hero">
+    <div class="page-hero-icon">&#128444;&#65039;</div>
+    <h1>Vision Board</h1>
+    <p>See your dreams every day. Upload images of everything you want to manifest — your dream life made visible.</p>
+    <div id="vbStreakDisplay" style="margin-top:12px"></div>
+  </div>
+
+  <section style="padding:20px 0 100px">
+    <div class="container">
+      <!-- Upload Zone -->
+      <div class="glass" style="border-radius:20px;padding:24px;margin-bottom:24px">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:20px">
+          <h3 style="font-size:1rem;font-weight:700">&#128444;&#65039; My Vision Board</h3>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <span id="vbStats" style="font-size:0.82rem;color:var(--text-muted);display:flex;align-items:center"></span>
+            <button class="btn btn-ghost btn-sm" onclick="toggleSlideshow()">&#9654; Slideshow</button>
+            <button class="btn btn-primary btn-sm" onclick="document.getElementById('vbFileInput').click()">&#43; Upload Images</button>
+            <button class="btn btn-ghost btn-sm" onclick="clearVisionBoard()" style="color:#f87171">&#128465; Clear All</button>
+          </div>
+        </div>
+        <input type="file" id="vbFileInput" multiple accept="image/*,.heic,.heif" style="display:none" onchange="handleVBUpload(this)" />
+        <div id="vbGrid" class="vb-grid"></div>
+        <div id="vbEmpty" class="vb-upload-zone" onclick="document.getElementById('vbFileInput').click()">
+          <div class="vb-upload-icon">&#128444;&#65039;</div>
+          <h3 style="margin-bottom:8px">Upload Your Dream Images</h3>
+          <p style="color:var(--text-muted);font-size:0.9rem">Click to upload · Supports JPG, PNG, GIF, WebP, SVG, HEIC, BMP and more · No limit on number of images</p>
+        </div>
+      </div>
+
+      <!-- Tips -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px">
+        <div class="glass" style="border-radius:16px;padding:20px"><h4 style="margin-bottom:8px">&#127775; What to Include</h4><p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7">Your dream home, travel destinations, ideal body, dream career, lifestyle goals, relationships, experiences, and anything that lights you up.</p></div>
+        <div class="glass" style="border-radius:16px;padding:20px"><h4 style="margin-bottom:8px">&#128337; Daily Practice</h4><p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7">Spend 5 minutes each morning looking at your vision board. Feel the emotions as if these dreams are already your reality.</p></div>
+        <div class="glass" style="border-radius:16px;padding:20px"><h4 style="margin-bottom:8px">&#127775; Vision Board Streak</h4><p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7">Visit your vision board every day to build your streak. Missing a day resets it. Consistency creates manifestation momentum.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-counter" id="lightboxCounter"></div>
+    <button class="lightbox-nav lightbox-prev" onclick="lightboxNav(-1)">&#8592;</button>
+    <img id="lightboxImg" src="" alt="Vision" />
+    <button class="lightbox-nav lightbox-next" onclick="lightboxNav(1)">&#8594;</button>
+    <div class="lightbox-controls">
+      <button class="lightbox-btn" onclick="toggleSlideshow()">&#9654; Slideshow</button>
+      <button class="lightbox-btn lightbox-close" onclick="closeLightbox()">&#215; Close</button>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/coins.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/vision-board.js"></script>
+<script>
+document.querySelectorAll(".nav-dropdown > a").forEach(function(a){
+  a.addEventListener("click",function(e){if(window.innerWidth<=900){e.preventDefault();a.parentElement.classList.toggle("open");}});
+});
+</script>
+</body>
+</html>
+

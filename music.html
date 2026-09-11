@@ -1,0 +1,307 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ambient Music | Cosmos Gratitude</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    .music-now-playing {
+      display:flex;align-items:center;gap:20px;padding:24px 28px;
+      border-radius:20px;background:var(--bg-glass);border:1px solid var(--border-glass);
+      margin-bottom:32px;
+    }
+    .now-playing-art {
+      width:64px;height:64px;border-radius:14px;
+      background:linear-gradient(135deg,#9b7dea,#ec4899);
+      display:flex;align-items:center;justify-content:center;
+      font-size:2rem;flex-shrink:0;
+    }
+    .now-playing-art.playing { animation: pulse 2s ease infinite; }
+    @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(155,125,234,0.4)} 50%{box-shadow:0 0 0 12px rgba(155,125,234,0)} }
+    .vinyl-anim { animation: spin 4s linear infinite; display:inline-block; }
+    .now-playing-info h4 { font-size:1rem;font-weight:700;margin-bottom:3px; }
+    .now-playing-info p  { font-size:0.82rem;color:var(--text-muted); }
+    .now-playing-badge {
+      margin-left:auto;display:flex;align-items:center;gap:8px;
+      padding:6px 14px;border-radius:100px;
+      background:rgba(155,125,234,0.12);border:1px solid rgba(155,125,234,0.25);
+      font-size:0.78rem;font-weight:700;color:var(--accent-purple);white-space:nowrap;
+    }
+    .now-playing-badge .dot { width:7px;height:7px;border-radius:50%;background:var(--accent-purple);animation:blink 1s step-start infinite; }
+    @keyframes blink { 50%{opacity:0} }
+
+    .track-item {
+      display:flex;align-items:center;gap:12px;padding:11px 16px;
+      border-radius:10px;border:1px solid transparent;
+      cursor:pointer;transition:var(--transition);text-decoration:none;color:var(--text-secondary);
+    }
+    .track-item:hover { background:rgba(255,255,255,0.05);border-color:var(--border-glass);color:var(--text-primary); }
+    .track-item.active { background:rgba(155,125,234,0.12);border-color:rgba(155,125,234,0.3);color:var(--text-primary); }
+    .track-num { font-size:0.75rem;color:var(--text-muted);width:18px;text-align:center;flex-shrink:0; }
+    .track-icon { font-size:1.1rem;flex-shrink:0; }
+    .track-meta { flex:1;min-width:0; }
+    .track-meta strong { display:block;font-size:0.88rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+    .track-meta span { font-size:0.76rem;color:var(--text-muted); }
+    .track-open { font-size:0.72rem;color:var(--accent-purple);white-space:nowrap;font-weight:600;flex-shrink:0; }
+
+    .cat-section { margin-bottom:32px; }
+    .cat-header { display:flex;align-items:center;gap:12px;margin-bottom:14px; }
+    .cat-header-icon { font-size:1.8rem; }
+    .cat-header h3 { font-size:1.05rem;font-weight:700;margin-bottom:2px; }
+    .cat-header p  { font-size:0.8rem;color:var(--text-muted); }
+    .tracks-grid { display:grid;grid-template-columns:1fr 1fr;gap:6px; }
+    @media(max-width:640px){ .tracks-grid{ grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><div class="logo-icon">&#10022;</div><span>Cosmos</span></a>
+      <div class="nav-links">
+        <a href="daily.html">Daily</a><a href="categories.html">Explore</a><a href="journal.html">Journal</a>
+        <a href="scripting.html">Scripting</a><a href="vision-board.html">Vision</a>
+        <a href="music.html" class="active">Music</a><a href="calendar.html">Calendar</a>
+        <a href="challenges.html">Challenges</a><a href="report.html">Reports</a><a href="creator.html">Creator</a>
+        <div class="nav-dropdown">
+          <a href="community.html">Community &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="community.html"><span class="dm-icon">&#128101;</span>Spaces</a>
+            <a href="community/events.html"><span class="dm-icon">&#128197;</span>Events</a>
+            <a href="community/tribe.html"><span class="dm-icon">&#127942;</span>Tribe</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="grow.html">Grow &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="grow.html"><span class="dm-icon">&#129680;</span>Practices</a>
+            <a href="grow.html?tab=courses"><span class="dm-icon">&#127891;</span>Courses</a>
+            <a href="challenges.html"><span class="dm-icon">&#127942;</span>Challenges</a>
+          </div>
+        </div>
+      </div>
+      <button class="theme-toggle" id="themeToggle">&#9789;</button>
+      <button class="hamburger" id="hamburger">&#9776;</button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="daily.html">Daily</a><a href="categories.html">Explore</a><a href="journal.html">Journal</a>
+      <a href="scripting.html">Scripting</a><a href="vision-board.html">Vision</a>
+      <a href="music.html">Music</a><a href="calendar.html">Calendar</a>
+      <a href="challenges.html">Challenges</a><a href="report.html">Reports</a><a href="creator.html">Creator</a>
+        <div class="nav-dropdown">
+          <a href="community.html">Community &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="community.html"><span class="dm-icon">&#128101;</span>Spaces</a>
+            <a href="community/events.html"><span class="dm-icon">&#128197;</span>Events</a>
+            <a href="community/tribe.html"><span class="dm-icon">&#127942;</span>Tribe</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="grow.html">Grow &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="grow.html"><span class="dm-icon">&#129680;</span>Practices</a>
+            <a href="grow.html?tab=courses"><span class="dm-icon">&#127891;</span>Courses</a>
+            <a href="challenges.html"><span class="dm-icon">&#127942;</span>Challenges</a>
+          </div>
+        </div>
+    </div>
+  </nav>
+
+  <div class="page-hero">
+    <div class="page-hero-icon">&#127926;</div>
+    <h1>Ambient Music</h1>
+    <p>Curated soundscapes for meditation, journaling, scripting, and deep focus. Click any track to open it.</p>
+  </div>
+
+  <section style="padding:20px 0 100px">
+    <div class="container">
+
+      <!-- Now Playing Bar -->
+      <div class="music-now-playing" id="nowPlayingBar">
+        <div class="now-playing-art" id="nowPlayingArt">&#127926;</div>
+        <div class="now-playing-info">
+          <h4 id="nowPlayingTitle">Select a track to begin</h4>
+          <p id="nowPlayingDesc">Choose a soundscape below to open it in your browser</p>
+        </div>
+        <div class="now-playing-badge" id="nowBadge" style="display:none">
+          <div class="dot"></div> Now Playing
+        </div>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px">
+        <button class="sct-btn active" onclick="filterCat('all',this)">&#10022; All</button>
+        <button class="sct-btn" onclick="filterCat('rain',this)">&#127783;&#65039; Rain</button>
+        <button class="sct-btn" onclick="filterCat('binaural',this)">&#129504; Binaural</button>
+        <button class="sct-btn" onclick="filterCat('nature',this)">&#127807; Nature</button>
+        <button class="sct-btn" onclick="filterCat('bowls',this)">&#129645; Bowls</button>
+        <button class="sct-btn" onclick="filterCat('lofi',this)">&#127926; Lo-Fi</button>
+        <button class="sct-btn" onclick="filterCat('gratitude',this)">&#10024; Gratitude</button>
+      </div>
+
+      <!-- Track Sections -->
+      <div id="musicSections"></div>
+
+      <!-- External Resources -->
+      <div class="glass" style="border-radius:20px;padding:28px;margin-top:12px">
+        <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:16px">&#127760; Free Ambient Music Libraries</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+          <a href="https://mynoise.net" target="_blank" rel="noopener" class="track-item" style="border:1px solid var(--border-glass);border-radius:12px;padding:14px 16px">
+            <span style="font-size:1.4rem">&#127926;</span>
+            <div><strong style="display:block;font-size:0.88rem;font-weight:700;color:var(--text-primary)">myNoise.net</strong><span style="font-size:0.75rem;color:var(--text-muted)">Customizable soundscapes</span></div>
+          </a>
+          <a href="https://freemusicarchive.org/genre/Ambient/" target="_blank" rel="noopener" class="track-item" style="border:1px solid var(--border-glass);border-radius:12px;padding:14px 16px">
+            <span style="font-size:1.4rem">&#127925;</span>
+            <div><strong style="display:block;font-size:0.88rem;font-weight:700;color:var(--text-primary)">Free Music Archive</strong><span style="font-size:0.75rem;color:var(--text-muted)">Royalty-free ambient</span></div>
+          </a>
+          <a href="https://pixabay.com/music/search/ambient/" target="_blank" rel="noopener" class="track-item" style="border:1px solid var(--border-glass);border-radius:12px;padding:14px 16px">
+            <span style="font-size:1.4rem">&#127911;</span>
+            <div><strong style="display:block;font-size:0.88rem;font-weight:700;color:var(--text-primary)">Pixabay Music</strong><span style="font-size:0.75rem;color:var(--text-muted)">Free download tracks</span></div>
+          </a>
+          <a href="https://www.youtube.com/@LofiGirl" target="_blank" rel="noopener" class="track-item" style="border:1px solid var(--border-glass);border-radius:12px;padding:14px 16px">
+            <span style="font-size:1.4rem">&#127757;</span>
+            <div><strong style="display:block;font-size:0.88rem;font-weight:700;color:var(--text-primary)">Lofi Girl</strong><span style="font-size:0.75rem;color:var(--text-muted)">24/7 lo-fi radio</span></div>
+          </a>
+          <a href="https://www.youtube.com/@relaxingwhitenoiseofficial" target="_blank" rel="noopener" class="track-item" style="border:1px solid var(--border-glass);border-radius:12px;padding:14px 16px">
+            <span style="font-size:1.4rem">&#127783;&#65039;</span>
+            <div><strong style="display:block;font-size:0.88rem;font-weight:700;color:var(--text-primary)">Relaxing White Noise</strong><span style="font-size:0.75rem;color:var(--text-muted)">Rain, sleep, focus</span></div>
+          </a>
+          <a href="https://open.spotify.com/genre/ambient-page" target="_blank" rel="noopener" class="track-item" style="border:1px solid var(--border-glass);border-radius:12px;padding:14px 16px">
+            <span style="font-size:1.4rem">&#129331;</span>
+            <div><strong style="display:block;font-size:0.88rem;font-weight:700;color:var(--text-primary)">Spotify Ambient</strong><span style="font-size:0.75rem;color:var(--text-muted)">Curated playlists</span></div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <script src="js/app.js"></script>
+  <script src="js/coins.js"></script>
+  <script>
+  // ── Track Database ──────────────────────────────────────────
+  const TRACKS = [
+    // RAIN
+    { cat:'rain', icon:'&#127783;&#65039;', title:'Heavy Rain on Window — 8 Hours',    desc:'Deep sleep & focus', url:'https://www.youtube.com/watch?v=eKFTSSKCfni' },
+    { cat:'rain', icon:'&#127783;&#65039;', title:'Thunderstorm & Rain — Sleep',        desc:'Powerful storm ambience', url:'https://www.youtube.com/watch?v=mPZkdNFkNps' },
+    { cat:'rain', icon:'&#127783;&#65039;', title:'Forest Rain with Birds',             desc:'Peaceful nature rain', url:'https://www.youtube.com/watch?v=q76bMs-NwRk' },
+    { cat:'rain', icon:'&#127783;&#65039;', title:'Light Rain Café — Study Session',   desc:'Cozy rainy cafe vibes', url:'https://www.youtube.com/watch?v=lFcSrYw-ARY' },
+    { cat:'rain', icon:'&#127783;&#65039;', title:'Rain on Leaves — Forest Walk',      desc:'Gentle nature sounds', url:'https://www.youtube.com/watch?v=yIQd2Ya0Ziw' },
+    { cat:'rain', icon:'&#127783;&#65039;', title:'City Rain at Night — 10 Hours',     desc:'Urban rain ambience', url:'https://www.youtube.com/watch?v=Hq5LZMEKmFY' },
+    // BINAURAL
+    { cat:'binaural', icon:'&#129504;', title:'Alpha Waves 10Hz — Calm Focus',         desc:'Relaxed concentration', url:'https://www.youtube.com/watch?v=WPni755-Krg' },
+    { cat:'binaural', icon:'&#129504;', title:'Theta Waves 6Hz — Deep Meditation',    desc:'Meditative brain state', url:'https://www.youtube.com/watch?v=K09sRSwXBqQ' },
+    { cat:'binaural', icon:'&#129504;', title:'Delta Waves 2Hz — Deep Sleep',         desc:'Restorative sleep', url:'https://www.youtube.com/watch?v=1ZYbU82GVz4' },
+    { cat:'binaural', icon:'&#129504;', title:'Gamma 40Hz — Peak Performance',        desc:'Heightened cognition', url:'https://www.youtube.com/watch?v=Jq5SObMdnRQ' },
+    { cat:'binaural', icon:'&#129504;', title:'528Hz — Miracle Tone DNA Repair',      desc:'Healing frequency', url:'https://www.youtube.com/watch?v=mMq4BF_MBSM' },
+    { cat:'binaural', icon:'&#129504;', title:'432Hz — Universal Harmony',            desc:'Deep resonance', url:'https://www.youtube.com/watch?v=O4GbhJQHN7E' },
+    // NATURE
+    { cat:'nature', icon:'&#127807;', title:'Forest Birds — Dawn Chorus',             desc:'Morning bird song', url:'https://www.youtube.com/watch?v=xNN7iTA57jM' },
+    { cat:'nature', icon:'&#127807;', title:'Ocean Waves — Beach Meditation',         desc:'Gentle surf sounds', url:'https://www.youtube.com/watch?v=4udlrkiVhAg' },
+    { cat:'nature', icon:'&#127807;', title:'Flowing Creek — Mountain Stream',        desc:'Babbling brook', url:'https://www.youtube.com/watch?v=V1RPi2MYptM' },
+    { cat:'nature', icon:'&#127807;', title:'Wind Through Trees — Autumn',            desc:'Gentle forest wind', url:'https://www.youtube.com/watch?v=eE1FD8sCCss' },
+    { cat:'nature', icon:'&#127807;', title:'Rainforest at Night — Jungle',           desc:'Tropical night sounds', url:'https://www.youtube.com/watch?v=y8RSJQKbQkU' },
+    { cat:'nature', icon:'&#127807;', title:'Fireplace Crackling — Cozy Night',       desc:'Warm fire ambience', url:'https://www.youtube.com/watch?v=L_LUpnjgPso' },
+    // TIBETAN BOWLS
+    { cat:'bowls', icon:'&#129645;', title:'Tibetan Singing Bowls — 1 Hour',          desc:'Deep healing resonance', url:'https://www.youtube.com/watch?v=XqOCYHHuTzg' },
+    { cat:'bowls', icon:'&#129645;', title:'963Hz Solfeggio — Crown Chakra',         desc:'Divine frequency', url:'https://www.youtube.com/watch?v=J0Uf5PK3t4s' },
+    { cat:'bowls', icon:'&#129645;', title:'Gong Bath Meditation — 30 min',          desc:'Temple gong sounds', url:'https://www.youtube.com/watch?v=4Yd-bgNbHMw' },
+    { cat:'bowls', icon:'&#129645;', title:'Crystal Bowls — Chakra Cleanse',         desc:'Full chakra activation', url:'https://www.youtube.com/watch?v=9oMGx-ENdwk' },
+    // LOFI
+    { cat:'lofi', icon:'&#127926;', title:'Lo-Fi Hip Hop — Study Radio',              desc:'Chill beats to focus', url:'https://www.youtube.com/watch?v=jfKfPfyJRdk' },
+    { cat:'lofi', icon:'&#127926;', title:'Chillhop Essentials — Calm Focus',        desc:'Mellow study beats', url:'https://www.youtube.com/watch?v=5qap5aO4i9A' },
+    { cat:'lofi', icon:'&#127926;', title:'Jazzy Lo-Fi — Coffee Shop Vibes',         desc:'Jazz-infused chill', url:'https://www.youtube.com/watch?v=7NOSDKb0HlU' },
+    { cat:'lofi', icon:'&#127926;', title:'Lo-Fi Sleep Beats — Slow & Calm',         desc:'Drift to sleep gently', url:'https://www.youtube.com/watch?v=8Off8yIE7c4' },
+    // GRATITUDE
+    { cat:'gratitude', icon:'&#10024;', title:'Gratitude Meditation — 1 Hour',       desc:'Uplifting practice music', url:'https://www.youtube.com/watch?v=fDqgKfKO3Xw' },
+    { cat:'gratitude', icon:'&#10024;', title:'Morning Gratitude — Rise & Shine',    desc:'Start with joy', url:'https://www.youtube.com/watch?v=PPhFGN3RK3I' },
+    { cat:'gratitude', icon:'&#10024;', title:'Deep Calm — Mindfulness Music',       desc:'Pure mindfulness', url:'https://www.youtube.com/watch?v=2OEL4P1Rz04' },
+    { cat:'gratitude', icon:'&#10024;', title:'Abundance Frequency — 963Hz',         desc:'Infinite abundance', url:'https://www.youtube.com/watch?v=GOEo6eVLFyY' },
+  ];
+
+  const CAT_META = {
+    rain:      { label:'Rain & Water',        icon:'&#127783;&#65039;', desc:'Soothing rain sounds for deep calm and sleep' },
+    binaural:  { label:'Binaural Beats',      icon:'&#129504;',         desc:'Brainwave entrainment for focus, sleep & meditation' },
+    nature:    { label:'Nature Sounds',       icon:'&#127807;',         desc:'Birds, ocean, forest streams & fire' },
+    bowls:     { label:'Tibetan Bowls',       icon:'&#129645;',         desc:'Healing frequencies for the soul' },
+    lofi:      { label:'Lo-Fi & Chill',       icon:'&#127926;',         desc:'Beats for writing, studying & creating' },
+    gratitude: { label:'Gratitude & Meditation', icon:'&#10024;',       desc:'Specially curated for your practice' },
+  };
+
+  let currentTrack = null;
+
+  function renderSections(filter) {
+    const cats = filter === 'all' ? Object.keys(CAT_META) : [filter];
+    const container = document.getElementById('musicSections');
+    container.innerHTML = '';
+
+    cats.forEach(cat => {
+      const tracks = TRACKS.filter(t => t.cat === cat);
+      if (!tracks.length) return;
+      const meta = CAT_META[cat];
+      const sec = document.createElement('div');
+      sec.className = 'cat-section glass';
+      sec.style.cssText = 'border-radius:20px;padding:24px;margin-bottom:20px';
+      sec.innerHTML = `
+        <div class="cat-header">
+          <div class="cat-header-icon">${meta.icon}</div>
+          <div><h3>${meta.label}</h3><p>${meta.desc}</p></div>
+        </div>
+        <div class="tracks-grid">
+          ${tracks.map((t, i) => `
+            <a class="track-item" id="track-${cat}-${i}" href="${t.url}" target="_blank" rel="noopener"
+               onclick="selectTrack(event,'${cat}',${i})">
+              <span class="track-num">${i+1}</span>
+              <span class="track-icon">${t.icon}</span>
+              <div class="track-meta">
+                <strong>${t.title}</strong>
+                <span>${t.desc}</span>
+              </div>
+              <span class="track-open">Open &#8599;</span>
+            </a>`).join('')}
+        </div>`;
+      container.appendChild(sec);
+    });
+  }
+
+  window.filterCat = function(cat, btn) {
+    document.querySelectorAll('.sct-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderSections(cat);
+    // Re-apply active state if current track visible
+    if (currentTrack) {
+      const el = document.getElementById('track-' + currentTrack.cat + '-' + currentTrack.idx);
+      if (el) el.classList.add('active');
+    }
+  };
+
+  window.selectTrack = function(e, cat, idx) {
+    // Don't prevent default — let the link open; just update the now-playing bar
+    const t = TRACKS.filter(x => x.cat === cat)[idx];
+    if (!t) return;
+    currentTrack = { cat, idx };
+
+    // Update now-playing bar
+    document.getElementById('nowPlayingTitle').textContent = t.title;
+    document.getElementById('nowPlayingDesc').textContent = t.desc + ' — opens in new tab';
+    document.getElementById('nowPlayingArt').innerHTML = '<span class="vinyl-anim">' + t.icon + '</span>';
+    document.getElementById('nowPlayingArt').classList.add('playing');
+    document.getElementById('nowBadge').style.display = 'flex';
+
+    // Highlight active track
+    document.querySelectorAll('.track-item').forEach(el => el.classList.remove('active'));
+    const el = document.getElementById('track-' + cat + '-' + idx);
+    if (el) el.classList.add('active');
+  };
+
+  renderSections('all');
+  </script>
+<script>
+document.querySelectorAll(".nav-dropdown > a").forEach(function(a){
+  a.addEventListener("click",function(e){if(window.innerWidth<=900){e.preventDefault();a.parentElement.classList.toggle("open");}});
+});
+</script>
+</body>
+</html>
+

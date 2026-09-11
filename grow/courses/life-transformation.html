@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cosmos - Life Transformation Foundation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body class="dark-theme">
+  <!-- Nav -->
+  <nav class="navbar" id="navbar"><div class="nav-inner">
+    <a href="../../index.html" class="nav-logo"><div class="logo-icon">&#10022;</div><span>Cosmos</span></a>
+    <div class="nav-links">
+      <a href="../../daily.html">Daily</a>
+      <a href="../../journal.html">Journal</a>
+      <div class="nav-dropdown"><a href="../../community.html">Community</a>
+        <div class="dropdown-menu">
+          <a href="../../community.html"><span class="dm-icon">&#128101;</span>Spaces</a>
+          <a href="../../community/events.html"><span class="dm-icon">&#128197;</span>Events</a>
+          <a href="../../community/tribe.html"><span class="dm-icon">&#127942;</span>Tribe</a>
+        </div>
+      </div>
+      <div class="nav-dropdown"><a href="../../grow.html" class="active">Grow</a>
+        <div class="dropdown-menu">
+          <a href="../../grow.html"><span class="dm-icon">&#129680;</span>Practices</a>
+          <a href="../../grow.html?tab=courses"><span class="dm-icon">&#127891;</span>Courses</a>
+          <a href="../../challenges.html"><span class="dm-icon">&#127942;</span>Challenges</a>
+        </div>
+      </div>
+      <a href="../../report.html">Reports</a>
+    </div>
+  </div></nav>
+
+  <main class="container">
+    <div class="page-hero glass" style="margin-bottom:24px;">
+      <a href="../../grow.html?tab=courses" style="color:var(--primary-color);text-decoration:none;display:inline-block;margin-bottom:16px;">&larr; Back to Courses</a>
+      <div class="hero-icon" style="font-size:3rem;">&#127775;</div>
+      <h1>Life Transformation Foundation</h1>
+      <p>The foundational course for anyone beginning their transformation journey.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:280px 1fr;gap:24px;align-items:start" id="courseLayout">
+      <!-- Sidebar -->
+      <div class="glass" style="border-radius:20px;padding:20px;position:sticky;top:90px">
+        <div style="margin-bottom:16px">
+          <div class="course-progress-bar"><div class="course-progress-fill" id="sidebarProgress" style="width:0%"></div></div>
+          <div class="course-progress-text" id="progressText" style="margin-top:8px;">0% complete</div>
+        </div>
+        <div class="lesson-sidebar" id="lessonSidebar"></div>
+      </div>
+      <!-- Content area -->
+      <div class="lesson-content-area glass" id="lessonContent" style="border-radius:20px;padding:32px;"></div>
+    </div>
+  </main>
+
+  <script>
+    const courseId = 'life-transformation';
+    const lessons = [
+      {
+        title: 'What is Life Transformation?',
+        content: '<p>What transformation really means, why most people fail, the 3 pillars: mindset, habits, environment.</p><h3>Exercise</h3><p>Write your current life story in 100 words, then write your ideal story in 100 words.</p>'
+      },
+      {
+        title: 'The Power of Your Beliefs',
+        content: '<p>How limiting beliefs form, how to identify yours, rewriting belief patterns.</p><h3>Exercise</h3><p>List 5 limiting beliefs you hold and write a counter-belief for each.</p>'
+      },
+      {
+        title: 'Morning Rituals That Change Everything',
+        content: '<p>Why mornings matter, designing your ideal morning, the SAVERS framework.</p><h3>Exercise</h3><p>Design your ideal 30-minute morning routine.</p>'
+      },
+      {
+        title: 'The Gratitude Principle',
+        content: '<p>Science of gratitude, neuroplasticity, the 21-day gratitude effect.</p><h3>Exercise</h3><p>Write 10 gratitude statements in 10 different areas of your life.</p>'
+      },
+      {
+        title: 'Building Your New Identity',
+        content: '<p>Identity-based habits, how to become the person you want to be, acting as if.</p><h3>Exercise</h3><p>Write 10 identity statements starting with "I am..."</p>'
+      }
+    ];
+
+    function loadLesson(index) {
+      document.querySelectorAll('.lesson-item').forEach(el => el.classList.remove('active'));
+      const activeItem = document.getElementById('lesson-item-'+index);
+      if(activeItem) activeItem.classList.add('active');
+
+      const isCompleted = localStorage.getItem(`cosmos-lesson-${courseId}-${index}`) === 'true';
+      const lesson = lessons[index];
+      const contentHtml = `
+        <h2 style="margin-bottom:24px;">Lesson ${index+1}: ${lesson.title}</h2>
+        <div style="line-height:1.6;margin-bottom:32px;font-size:1.1rem;color:rgba(255,255,255,0.9);">${lesson.content}</div>
+        <button class="btn btn-primary" onclick="markComplete(${index})" ${isCompleted?'disabled':''}>
+          ${isCompleted ? 'Completed &#10003;' : 'Mark Complete'}
+        </button>
+      `;
+      document.getElementById('lessonContent').innerHTML = contentHtml;
+    }
+
+    function markComplete(index) {
+      localStorage.setItem(`cosmos-lesson-${courseId}-${index}`, 'true');
+      updateProgress();
+      loadLesson(index);
+      renderSidebar();
+    }
+
+    function updateProgress() {
+      let completed = 0;
+      for(let i=0; i<lessons.length; i++) {
+        if(localStorage.getItem(`cosmos-lesson-${courseId}-${i}`) === 'true') completed++;
+      }
+      const prog = Math.round((completed / lessons.length) * 100);
+      localStorage.setItem('cosmos-course-progress-'+courseId, prog);
+      document.getElementById('sidebarProgress').style.width = prog + '%';
+      document.getElementById('progressText').innerText = prog + '% complete';
+    }
+
+    function renderSidebar() {
+      const sidebar = document.getElementById('lessonSidebar');
+      sidebar.innerHTML = '';
+      lessons.forEach((l, i) => {
+        const isCompleted = localStorage.getItem(`cosmos-lesson-${courseId}-${i}`) === 'true';
+        sidebar.innerHTML += `
+          <div class="lesson-item" id="lesson-item-${i}" onclick="loadLesson(${i})" style="padding:12px;cursor:pointer;border-radius:8px;margin-bottom:8px;display:flex;align-items:center;gap:12px;">
+            <div class="lesson-check" style="width:20px;height:20px;border-radius:50%;border:2px solid var(--primary-color);display:flex;align-items:center;justify-content:center;font-size:0.8rem;color:var(--primary-color);">
+              ${isCompleted ? '&#10003;' : ''}
+            </div>
+            <div class="lesson-name" style="font-size:0.95rem;">${l.title}</div>
+          </div>
+        `;
+      });
+    }
+
+    // Init
+    updateProgress();
+    renderSidebar();
+    loadLesson(0);
+
+    // Responsive layout
+    if(window.innerWidth < 768) {
+      document.getElementById('courseLayout').style.gridTemplateColumns = '1fr';
+    }
+  </script>
+</body>
+</html>

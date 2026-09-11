@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cosmos - Grow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dark-theme">
+  <!-- Nav -->
+  <nav class="navbar" id="navbar"><div class="nav-inner">
+    <a href="index.html" class="nav-logo"><div class="logo-icon">&#10022;</div><span>Cosmos</span></a>
+    <div class="nav-links">
+      <a href="daily.html">Daily</a>
+      <a href="journal.html">Journal</a>
+      <div class="nav-dropdown"><a href="community.html">Community</a>
+        <div class="dropdown-menu">
+          <a href="community.html"><span class="dm-icon">&#128101;</span>Spaces</a>
+          <a href="community/events.html"><span class="dm-icon">&#128197;</span>Events</a>
+          <a href="community/tribe.html"><span class="dm-icon">&#127942;</span>Tribe</a>
+        </div>
+      </div>
+      <div class="nav-dropdown"><a href="grow.html" class="active">Grow</a>
+        <div class="dropdown-menu">
+          <a href="grow.html"><span class="dm-icon">&#129680;</span>Practices</a>
+          <a href="grow.html?tab=courses"><span class="dm-icon">&#127891;</span>Courses</a>
+          <a href="challenges.html"><span class="dm-icon">&#127942;</span>Challenges</a>
+        </div>
+      </div>
+      <a href="report.html">Reports</a>
+    </div>
+    <button class="theme-toggle" id="themeToggle">&#9789;</button>
+    <button class="hamburger" id="hamburger">&#9776;</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="daily.html">Daily</a><a href="journal.html">Journal</a>
+    <a href="community.html">Community</a><a href="grow.html">Grow</a>
+    <a href="challenges.html">Challenges</a><a href="report.html">Reports</a>
+  </div></nav>
+
+  <main class="container">
+    <div class="page-hero glass">
+      <div class="hero-icon" style="font-size:3rem;">&#129680;</div>
+      <h1>Grow</h1>
+      <p>Practices, courses, and challenges to transform your life one day at a time.</p>
+    </div>
+
+    <div class="hub-tabs">
+      <button class="hub-tab active" onclick="switchTab('tab-practices', this)">Practices</button>
+      <button class="hub-tab" onclick="switchTab('tab-courses', this)">Courses</button>
+      <button class="hub-tab" onclick="switchTab('tab-challenges', this)">Challenges</button>
+    </div>
+
+    <!-- PRACTICES TAB -->
+    <div id="tab-practices" class="hub-panel active" style="display:block;">
+      
+      <div class="section-label">BUNDLES</div>
+      <div class="bundle-card glass" style="margin-bottom:24px;">
+        <div class="bundle-icon">&#127823;</div>
+        <div class="bundle-info">
+          <h3>Manifestation Starter — 21 Days</h3>
+          <p>21 days · 6 foundation practices</p>
+        </div>
+        <button class="bundle-plus btn btn-ghost" onclick="openBundleModal()">+</button>
+      </div>
+
+      <div id="activePracticesSection" style="display:none; margin-bottom:24px;">
+        <div class="section-label" id="activePracticesLabel">MY ACTIVE PRACTICES · 0</div>
+        <div id="activePracticesList" style="display:grid;gap:12px;"></div>
+      </div>
+
+      <div class="section-label">PRACTICE LIBRARY</div>
+      <div class="grow-search glass" style="display:flex;align-items:center;padding:12px;border-radius:12px;margin-bottom:16px;">
+        <span style="margin-right:8px;">&#128269;</span>
+        <input type="text" id="practiceSearch" placeholder="Search practices..." oninput="filterPractices()" style="background:transparent;border:none;color:inherit;outline:none;width:100%;">
+      </div>
+      
+      <div class="filter-row" id="filterRow1" style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+        <button class="filter-chip active" data-filter="All">All</button>
+        <button class="filter-chip" data-filter="general">general</button>
+        <button class="filter-chip" data-filter="self">self</button>
+        <button class="filter-chip" data-filter="relationship">relationship</button>
+      </div>
+      <div class="filter-row" id="filterRow2" style="display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;">
+        <button class="filter-chip active" data-filter="All">All</button>
+        <button class="filter-chip" data-filter="Health">Health</button>
+        <button class="filter-chip" data-filter="Wealth">Wealth</button>
+        <button class="filter-chip" data-filter="Money">Money</button>
+        <button class="filter-chip" data-filter="Relationship">Relationship</button>
+      </div>
+
+      <div id="practiceList" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:16px;"></div>
+
+    </div>
+
+    <!-- COURSES TAB -->
+    <div id="tab-courses" class="hub-panel" style="display:none;">
+      <div class="section-label">COURSES</div>
+      <div style="display:grid;gap:16px;">
+        <a href="grow/courses/life-transformation.html" class="course-card glass" data-course="life-transformation">
+          <div class="course-icon">&#127775;</div>
+          <div class="course-info">
+            <h3>Life Transformation Foundation</h3>
+            <p>The foundational course</p>
+            <div class="course-progress-bar"><div class="course-progress-fill" style="width:0%"></div></div>
+            <div class="course-progress-text">0% complete</div>
+          </div>
+        </a>
+        <a href="grow/courses/gratitude-mastery.html" class="course-card glass" data-course="gratitude-mastery">
+          <div class="course-icon">&#128149;</div>
+          <div class="course-info">
+            <h3>Gratitude Mastery</h3>
+            <p>Master the art of gratitude</p>
+            <div class="course-progress-bar"><div class="course-progress-fill" style="width:0%"></div></div>
+            <div class="course-progress-text">0% complete</div>
+          </div>
+        </a>
+        <a href="grow/courses/vision-board-creation.html" class="course-card glass" data-course="vision-board-creation">
+          <div class="course-icon">&#128444;&#65039;</div>
+          <div class="course-info">
+            <h3>Vision Board Creation</h3>
+            <p>Design your future</p>
+            <div class="course-progress-bar"><div class="course-progress-fill" style="width:0%"></div></div>
+            <div class="course-progress-text">0% complete</div>
+          </div>
+        </a>
+        <div class="course-card locked glass">
+          <div class="course-icon">&#128274;</div>
+          <div class="course-info">
+            <h3>1% Club 2.0</h3>
+            <p>Daily 1% improvement</p>
+            <div class="locked-badge">Stardust badge required</div>
+          </div>
+        </div>
+        <div class="course-card locked glass">
+          <div class="course-icon">&#128274;</div>
+          <div class="course-info">
+            <h3>Monk Mode Reset</h3>
+            <p>Deep focus and discipline</p>
+            <div class="locked-badge">Locked</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHALLENGES TAB -->
+    <div id="tab-challenges" class="hub-panel" style="display:none;">
+      <div class="section-label">CHALLENGES</div>
+      <a href="challenges.html" class="btn btn-primary" style="display:block;text-align:center;margin-bottom:24px;">View Full Challenge Tracker</a>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(250px, 1fr));gap:16px;">
+        <a href="challenges.html" class="glass" style="padding:16px;border-radius:12px;text-decoration:none;color:inherit;">
+          <h3>21-Day Gratitude Sprint</h3><p>Write 3 things daily</p>
+        </a>
+        <a href="challenges.html" class="glass" style="padding:16px;border-radius:12px;text-decoration:none;color:inherit;">
+          <h3>No Complaining Challenge</h3><p>7 days of zero complaints</p>
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Bundle Modal -->
+  <div id="bundleModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:100;align-items:center;justify-content:center;padding:20px;">
+    <div class="glass" style="max-width:500px;width:100%;border-radius:20px;padding:24px;position:relative;">
+      <button onclick="closeBundleModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:white;font-size:1.5rem;cursor:pointer;">&times;</button>
+      <h2 style="margin-bottom:8px;">21 days · 6 foundation practices</h2>
+      <p style="margin-bottom:16px;line-height:1.5;font-size:0.95rem;color:rgba(255,255,255,0.8);">
+        The first bundle for anyone new to manifestation. Most beginners try to manifest by jumping straight to visualization or affirmations — and quit in two weeks because nothing shifts. The reason is simple: manifestation is not one practice. It is three layers working together. This 21-day bundle gives you all three: Mindset — what you tell yourself every day (Daily Affirmation, Vision Minute). Emotional state — how you bookend your day (Gratitude Writing, morning and night). Energetic clearing — what you stop consuming (Media Detox, People Detox). Twenty-one days is long enough to feel the shift. Short enough to commit to. What you will do each day: Six small practices. None of them take more than a few minutes. The whole routine fits inside 15 minutes a day — most of it before you leave your bed.
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;">
+        <span class="tag-chip glass" style="padding:4px 10px;border-radius:20px;font-size:0.8rem;">Daily Affirmation</span>
+        <span class="tag-chip glass" style="padding:4px 10px;border-radius:20px;font-size:0.8rem;">Vision Minute</span>
+        <span class="tag-chip glass" style="padding:4px 10px;border-radius:20px;font-size:0.8rem;">Gratitude Writing Morning</span>
+        <span class="tag-chip glass" style="padding:4px 10px;border-radius:20px;font-size:0.8rem;">Gratitude Writing Before Bed</span>
+        <span class="tag-chip glass" style="padding:4px 10px;border-radius:20px;font-size:0.8rem;">Media Detox</span>
+        <span class="tag-chip glass" style="padding:4px 10px;border-radius:20px;font-size:0.8rem;">People Detox</span>
+      </div>
+      <button class="btn btn-primary" style="width:100%" onclick="startBundle()">Start Bundle</button>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/coins.js"></script>
+  <script src="js/grow.js"></script>
+  <script>
+    function switchTab(id, btn) {
+      document.querySelectorAll('.hub-panel').forEach(p => p.style.display = 'none');
+      document.querySelectorAll('.hub-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById(id).style.display = 'block';
+      if(btn) btn.classList.add('active');
+      if(id === 'tab-courses' && typeof renderCoursesTab === 'function') renderCoursesTab();
+    }
+    const urlParams = new URLSearchParams(window.location.search);
+    if(urlParams.get('tab') === 'courses') {
+      switchTab('tab-courses', document.querySelectorAll('.hub-tab')[1]);
+    }
+  </script>
+</body>
+</html>

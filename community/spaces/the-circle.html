@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Circle - Cosmos Gratitude</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    /* Specific styles if needed */
+  </style>
+</head>
+<body class="dark-theme">
+  <div class="stars" id="stars"></div>
+  
+  <nav class="navbar" id="navbar"><div class="nav-inner">
+    <a href="../../index.html" class="nav-logo"><div class="logo-icon">&#10022;</div><span>Cosmos</span></a>
+    <div class="nav-links">
+      <a href="../../daily.html">Daily</a>
+      <div class="nav-dropdown"><a href="../../community.html" class="active">Community</a>
+        <div class="dropdown-menu">
+          <a href="../../community.html"><span class="dm-icon">&#128101;</span>Spaces</a>
+          <a href="../../community/events.html"><span class="dm-icon">&#128197;</span>Events</a>
+          <a href="../../community/tribe.html"><span class="dm-icon">&#127942;</span>Tribe</a>
+        </div>
+      </div>
+      <div class="nav-dropdown"><a href="../../grow.html">Grow</a>
+        <div class="dropdown-menu">
+          <a href="../../grow.html"><span class="dm-icon">&#129680;</span>Practices</a>
+          <a href="../../grow.html?tab=courses"><span class="dm-icon">&#127891;</span>Courses</a>
+        </div>
+      </div>
+    </div>
+    <button class="theme-toggle" id="themeToggle">&#9789;</button>
+    <button class="hamburger" id="hamburger">&#9776;</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../../community.html">Community</a><a href="../../grow.html">Grow</a>
+  </div></nav>
+
+  <main class="container">
+    <a href="../../community.html" class="btn btn-ghost btn-sm" style="margin-top: 2rem;">&larr; Back to Community</a>
+    
+    <div class="page-hero glass">
+      <div class="hero-icon">&#128336;</div>
+      <h1>The Circle</h1>
+      <p>Open discussions, questions, insights and experiences. Your voice matters here.</p>
+    </div>
+
+    <div class="post-create-box glass" style="margin-top: 2rem;">
+      <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+        <div class="avatar-circle" id="myAvatarCircle">Y</div>
+        <input type="text" id="myNameInput" class="name-input" placeholder="Your Name" onchange="updateMyName(this.value)">
+      </div>
+      <div style="display: flex; gap: 8px; margin-bottom: 1rem; overflow-x: auto;">
+        <button class="filter-chip" onclick="setType('Question', this)">&#10067; Question</button>
+        <button class="filter-chip active" onclick="setType('Insight', this)">&#128161; Insight</button>
+        <button class="filter-chip" onclick="setType('Experience', this)">&#9997; Experience</button>
+        <button class="filter-chip" onclick="setType('Resource', this)">&#128279; Resource</button>
+      </div>
+      <textarea id="postInput" class="post-textarea" placeholder="Start a discussion, ask a question, share an insight..."></textarea>
+      <div style="text-align: right; margin-top: 1rem;">
+        <button class="btn btn-primary" onclick="submitPost()">Post to Circle</button>
+      </div>
+    </div>
+
+    <div id="filterRow" style="display: flex; gap: 8px; margin-top: 2rem; margin-bottom: 1rem; overflow-x: auto;">
+      <button class="filter-chip active" onclick="filterPosts('all', this)">All</button>
+      <button class="filter-chip" onclick="filterPosts('Question', this)">Question</button>
+      <button class="filter-chip" onclick="filterPosts('Insight', this)">Insight</button>
+      <button class="filter-chip" onclick="filterPosts('Experience', this)">Experience</button>
+      <button class="filter-chip" onclick="filterPosts('Resource', this)">Resource</button>
+    </div>
+
+    <div id="postsContainer" style="display: flex; flex-direction: column; gap: 1rem;"></div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand"><div class="logo-icon">&#10022;</div><span>Cosmos Gratitude</span></div>
+      <p class="footer-copy">&copy; 2026 Cosmos Gratitude</p>
+    </div>
+  </footer>
+
+  <script src="../../js/app.js"></script>
+  <script src="../../js/coins.js"></script>
+  <script src="../../js/community.js"></script>
+  <script>
+    const SPACE_ID = 'the-circle';
+    let selectedType = 'Insight';
+    let filterVal = 'all';
+    const typeColors = {Question:'blue', Insight:'purple', Experience:'green', Resource:'gold'};
+
+    function updateMyName(v) {
+      if(window.Community) {
+        Community.setName(v);
+        const name = Community.getMyName();
+        document.getElementById('myAvatarCircle').textContent = name.charAt(0).toUpperCase();
+        document.getElementById('myAvatarCircle').style.backgroundColor = Community.hashColor(name);
+      }
+    }
+
+    function setType(t, btn) {
+      selectedType = t;
+      const chips = document.querySelectorAll('.post-create-box .filter-chip');
+      chips.forEach(c => c.classList.remove('active'));
+      if(btn) btn.classList.add('active');
+    }
+
+    function filterPosts(f, btn) {
+      filterVal = f;
+      const chips = document.querySelectorAll('#filterRow .filter-chip');
+      chips.forEach(c => c.classList.remove('active'));
+      if(btn) btn.classList.add('active');
+      renderAll();
+    }
+
+    function submitPost() {
+      const msg = document.getElementById('postInput').value.trim();
+      const name = document.getElementById('myNameInput').value.trim();
+      if(!msg || !name) {
+        if(window.showToast) showToast('Please enter your name and a message.');
+        return;
+      }
+      
+      updateMyName(name);
+      if(window.Community) {
+        Community.addPost(SPACE_ID, msg, [selectedType], {type:selectedType});
+        document.getElementById('postInput').value = '';
+        renderAll();
+        if(window.showToast) showToast('Post added successfully!');
+      }
+    }
+
+    function renderAll() {
+      if(!window.Community) return;
+      const postsContainer = document.getElementById('postsContainer');
+      postsContainer.innerHTML = '';
+      
+      let posts = Community.getPosts(SPACE_ID);
+      if(filterVal !== 'all') {
+        posts = posts.filter(p => p.metadata && p.metadata.type === filterVal);
+      }
+      
+      posts.sort((a,b) => b.timestamp - a.timestamp);
+      
+      if(posts.length === 0) {
+        postsContainer.innerHTML = '<div class="glass" style="text-align:center;padding:2rem;">No posts yet. Be the first to post!</div>';
+        return;
+      }
+      
+      posts.forEach(p => {
+        const typeBadge = p.metadata && p.metadata.type ? `<span class="tag-chip" style="background:var(--${typeColors[p.metadata.type] || 'purple'}-glow)">${p.metadata.type}</span>` : '';
+        const html = Community.renderPost(p, SPACE_ID, { extraHtml: typeBadge });
+        postsContainer.insertAdjacentHTML('beforeend', html);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      if(window.Community) {
+        const name = Community.getMyName();
+        document.getElementById('myNameInput').value = name;
+        updateMyName(name);
+      }
+      renderAll();
+      
+      // Mobile menu toggle
+      const hamburger = document.getElementById('hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      if(hamburger && mobileMenu) {
+        hamburger.addEventListener('click', () => {
+          mobileMenu.classList.toggle('active');
+        });
+      }
+    });
+  </script>
+</body>
+</html>

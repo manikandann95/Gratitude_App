@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Cosmos — Your Universe of Gratitude</title>
+  <meta name="description" content="Build habits, find clarity, and transform one day at a time. Daily gratitude, health, wealth, career, inner peace and financial freedom." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">&#10022;</div>
+        <span>Cosmos</span>
+      </a>
+      <div class="nav-links">
+        <a href="daily.html">Daily</a><a href="categories.html">Explore</a><a href="journal.html">Journal</a>
+        <a href="scripting.html">Scripting</a><a href="vision-board.html">Vision</a>
+        <a href="music.html">Music</a><a href="calendar.html">Calendar</a>
+        <a href="challenges.html">Challenges</a><a href="report.html">Reports</a><a href="creator.html">Creator</a>
+        <div class="nav-dropdown">
+          <a href="community.html">Community &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="community.html"><span class="dm-icon">&#128101;</span>Spaces</a>
+            <a href="community/events.html"><span class="dm-icon">&#128197;</span>Events</a>
+            <a href="community/tribe.html"><span class="dm-icon">&#127942;</span>Tribe</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="grow.html">Grow &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="grow.html"><span class="dm-icon">&#129680;</span>Practices</a>
+            <a href="grow.html?tab=courses"><span class="dm-icon">&#127891;</span>Courses</a>
+            <a href="challenges.html"><span class="dm-icon">&#127942;</span>Challenges</a>
+          </div>
+        </div>
+      </div>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">&#9789;</button>
+      <button class="hamburger" id="hamburger">&#9776;</button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="daily.html">Daily Practice</a>
+      <a href="categories.html">Explore</a>
+      <a href="journal.html">Journal</a>
+      <a href="scripting.html">Scripting</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">&#10022; Your Universe of Growth</div>
+      <h1 class="hero-title">Cultivate <em>Gratitude</em>,<br/>Transform Your World</h1>
+      <p class="hero-subtitle">Build life-changing habits, find inner clarity, and manifest your dreams &mdash; one mindful day at a time. Health, wealth, career, and inner peace await.</p>
+      <div class="hero-actions">
+        <a href="daily.html" class="btn btn-primary">Begin Today's Practice</a>
+        <a href="categories.html" class="btn btn-ghost">Explore Practices &darr;</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-number">&infin;</span><span class="stat-label">Daily Affirmations</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-number">7</span><span class="stat-label">Life Areas</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-number">365</span><span class="stat-label">Days of Growth</span></div>
+      </div>
+    </div>
+    <div class="hero-orb">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+      <div class="cosmos-ring"></div>
+    </div>
+  </section>
+
+  <section class="quote-section">
+    <div class="container">
+      <div class="quote-card glass fade-up">
+        <div class="quote-icon">&ldquo;</div>
+        <blockquote id="dailyQuote">Gratitude turns what we have into enough, and more.</blockquote>
+        <cite id="quoteAuthor">&mdash; Melody Beattie</cite>
+        <button class="btn btn-ghost btn-sm" onclick="newQuote()">New Quote &#10022;</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="categories-section">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-badge">&#10022; Explore</div>
+        <h2>Your Universe of Practice</h2>
+        <p>Seven sacred domains of daily gratitude and transformation</p>
+      </div>
+      <div class="categories-grid">
+        <a href="pages/health.html" class="category-card glass fade-up" style="--accent:#4ade80">
+          <div class="card-icon">&#127807;</div>
+          <h3>Health</h3>
+          <p>Body, mind and vitality gratitude practices for radiant wellness</p>
+          <span class="card-arrow">&rarr;</span>
+        </a>
+        <a href="pages/career.html" class="category-card glass fade-up" style="--accent:#60a5fa">
+          <div class="card-icon">&#128640;</div>
+          <h3>Career</h3>
+          <p>Purpose, growth and professional abundance practices</p>
+          <span class="card-arrow">&rarr;</span>
+        </a>
+        <a href="pages/wealth.html" class="category-card glass fade-up" style="--accent:#fbbf24">
+          <div class="card-icon">&#128176;</div>
+          <h3>Wealth</h3>
+          <p>Abundance mindset and prosperity consciousness practices</p>
+          <span class="card-arrow">&rarr;</span>
+        </a>
+        <a href="pages/inner-peace.html" class="category-card glass fade-up" style="--accent:#a78bfa">
+          <div class="card-icon">&#128154;</div>
+          <h3>Inner Peace</h3>
+          <p>Stillness, balance and emotional freedom practices</p>
+          <span class="card-arrow">&rarr;</span>
+        </a>
+        <a href="pages/financial-freedom.html" class="category-card glass fade-up" style="--accent:#34d399">
+          <div class="card-icon">&#127775;</div>
+          <h3>Financial Freedom</h3>
+          <p>Mindset shifts for lasting financial wellness and freedom</p>
+          <span class="card-arrow">&rarr;</span>
+        </a>
+        <a href="scripting.html" class="category-card glass fade-up" style="--accent:#f472b6">
+          <div class="card-icon">&#9997;&#65039;</div>
+          <h3>Scripting</h3>
+          <p>Write your reality with powerful gratitude scripting</p>
+          <span class="card-arrow">&rarr;</span>
+        </a>
+        <a href="journal.html" class="category-card glass fade-up" style="--accent:#fb923c">
+          <div class="card-icon">&#128218;</div>
+          <h3>Journal</h3>
+          <p>Daily reflections and mindful gratitude entries</p>
+          <span class="card-arrow">&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-card glass fade-up">
+        <div class="cta-orb"></div>
+        <h2>Start Your Daily Practice</h2>
+        <p>Just 5 minutes of intentional gratitude can rewire your brain for abundance and joy. Begin your journey today.</p>
+        <div class="cta-features">
+          <span>&#10022; Morning Rituals</span>
+          <span>&#10022; Evening Reflections</span>
+          <span>&#10022; Affirmations</span>
+          <span>&#10022; Breathwork</span>
+        </div>
+        <a href="daily.html" class="btn btn-primary btn-lg">Open Daily Practice</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-section">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="section-badge">&#10022; How It Works</div>
+        <h2>Your Path to Transformation</h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card glass fade-up"><div class="step-number">01</div><h3>Choose Your Practice</h3><p>Select from health, wealth, career, inner peace, or financial freedom &mdash; whichever resonates today.</p></div>
+        <div class="step-arrow">&rarr;</div>
+        <div class="step-card glass fade-up"><div class="step-number">02</div><h3>Journal &amp; Affirm</h3><p>Write your gratitude entries, affirmations, and scripting prompts. Watch your mindset shift.</p></div>
+        <div class="step-arrow">&rarr;</div>
+        <div class="step-card glass fade-up"><div class="step-number">03</div><h3>Transform Daily</h3><p>Build a consistent practice. Small daily acts of gratitude create extraordinary life changes.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand"><div class="logo-icon">&#10022;</div><span>Cosmos Gratitude</span></div>
+      <p class="footer-tagline">Your universe of gratitude and transformation.</p>
+      <div class="footer-links">
+        <a href="daily.html">Daily</a><a href="categories.html">Explore</a><a href="journal.html">Journal</a>
+        <a href="scripting.html">Scripting</a><a href="vision-board.html">Vision</a>
+        <a href="music.html">Music</a><a href="calendar.html">Calendar</a>
+        <a href="challenges.html">Challenges</a><a href="report.html">Reports</a><a href="creator.html">Creator</a>
+        <div class="nav-dropdown">
+          <a href="community.html">Community &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="community.html"><span class="dm-icon">&#128101;</span>Spaces</a>
+            <a href="community/events.html"><span class="dm-icon">&#128197;</span>Events</a>
+            <a href="community/tribe.html"><span class="dm-icon">&#127942;</span>Tribe</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="grow.html">Grow &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="grow.html"><span class="dm-icon">&#129680;</span>Practices</a>
+            <a href="grow.html?tab=courses"><span class="dm-icon">&#127891;</span>Courses</a>
+            <a href="challenges.html"><span class="dm-icon">&#127942;</span>Challenges</a>
+          </div>
+        </div>
+      </div>
+      <p class="footer-copy">&copy; 2026 Cosmos Gratitude App &middot; Made with &#10022; and gratitude</p>
+    </div>
+  </footer>
+  <script src="js/app.js"></script>
+  <script src="js/coins.js"></script>
+  <script src="js/notifications.js"></script>
+<script>
+document.querySelectorAll(".nav-dropdown > a").forEach(function(a){
+  a.addEventListener("click",function(e){if(window.innerWidth<=900){e.preventDefault();a.parentElement.classList.toggle("open");}});
+});
+</script>
+</body>
+</html>
+
+

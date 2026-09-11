@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saved Posts - Cosmos Gratitude</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    /* Specific styles if needed */
+  </style>
+</head>
+<body class="dark-theme">
+  <div class="stars" id="stars"></div>
+  
+  <nav class="navbar" id="navbar"><div class="nav-inner">
+    <a href="../../index.html" class="nav-logo"><div class="logo-icon">&#10022;</div><span>Cosmos</span></a>
+    <div class="nav-links">
+      <a href="../../daily.html">Daily</a>
+      <div class="nav-dropdown"><a href="../../community.html" class="active">Community</a>
+        <div class="dropdown-menu">
+          <a href="../../community.html"><span class="dm-icon">&#128101;</span>Spaces</a>
+          <a href="../../community/events.html"><span class="dm-icon">&#128197;</span>Events</a>
+          <a href="../../community/tribe.html"><span class="dm-icon">&#127942;</span>Tribe</a>
+        </div>
+      </div>
+      <div class="nav-dropdown"><a href="../../grow.html">Grow</a>
+        <div class="dropdown-menu">
+          <a href="../../grow.html"><span class="dm-icon">&#129680;</span>Practices</a>
+          <a href="../../grow.html?tab=courses"><span class="dm-icon">&#127891;</span>Courses</a>
+        </div>
+      </div>
+    </div>
+    <button class="theme-toggle" id="themeToggle">&#9789;</button>
+    <button class="hamburger" id="hamburger">&#9776;</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../../community.html">Community</a><a href="../../grow.html">Grow</a>
+  </div></nav>
+
+  <main class="container">
+    <a href="../../community.html" class="btn btn-ghost btn-sm" style="margin-top: 2rem;">&larr; Back to Community</a>
+    
+    <div class="page-hero glass">
+      <div class="hero-icon">&#128204;</div>
+      <h1>Saved Posts</h1>
+      <p>All posts you have bookmarked across every Community space.</p>
+    </div>
+
+    <div id="postsContainer" style="display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem;"></div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand"><div class="logo-icon">&#10022;</div><span>Cosmos Gratitude</span></div>
+      <p class="footer-copy">&copy; 2026 Cosmos Gratitude</p>
+    </div>
+  </footer>
+
+  <script src="../../js/app.js"></script>
+  <script src="../../js/coins.js"></script>
+  <script src="../../js/community.js"></script>
+  <script>
+    const SPACE_LABELS = {
+      'introduce': 'Introduce Yourself', 
+      'intentions': 'Intention Board', 
+      'announcements': 'Announcements', 
+      'gratitude-wall': 'Gratitude Wall', 
+      'the-circle': 'The Circle'
+    };
+
+    function renderAll() {
+      if(!window.Community) return;
+      const postsContainer = document.getElementById('postsContainer');
+      postsContainer.innerHTML = '';
+      
+      const posts = Community.getAllSavedPosts();
+      
+      if(posts.length === 0) {
+        postsContainer.innerHTML = `
+          <div class="glass" style="text-align:center;padding:3rem;">
+            <div style="font-size:3rem;margin-bottom:1rem;">&#128204;</div>
+            <p>You haven't saved any posts yet.</p>
+          </div>
+        `;
+        return;
+      }
+      
+      posts.forEach(p => {
+        const spaceName = SPACE_LABELS[p.spaceId] || p.spaceId;
+        const headerHtml = `<div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">In: ${spaceName}</div>`;
+        const postHtml = Community.renderPost(p, p.spaceId, {});
+        
+        const wrapper = document.createElement('div');
+        wrapper.innerHTML = headerHtml + postHtml;
+        postsContainer.appendChild(wrapper);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderAll();
+      
+      // Mobile menu toggle
+      const hamburger = document.getElementById('hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      if(hamburger && mobileMenu) {
+        hamburger.addEventListener('click', () => {
+          mobileMenu.classList.toggle('active');
+        });
+      }
+    });
+  </script>
+</body>
+</html>

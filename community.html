@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Community | Cosmos Gratitude</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><div class="logo-icon">&#10022;</div><span>Cosmos</span></a>
+      <div class="nav-links">
+        <a href="daily.html">Daily</a>
+        <a href="journal.html">Journal</a>
+        <a href="vision-board.html">Vision</a>
+        <div class="nav-dropdown">
+          <a href="community.html" class="active">Community &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="community.html"><span class="dm-icon">&#128101;</span>Spaces</a>
+            <a href="community/events.html"><span class="dm-icon">&#128197;</span>Events</a>
+            <a href="community/tribe.html"><span class="dm-icon">&#127942;</span>Tribe</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="grow.html">Grow &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="grow.html"><span class="dm-icon">&#129680;</span>Practices</a>
+            <a href="grow.html?tab=courses"><span class="dm-icon">&#127891;</span>Courses</a>
+            <a href="challenges.html"><span class="dm-icon">&#127942;</span>Challenges</a>
+          </div>
+        </div>
+        <a href="report.html">Reports</a>
+        <a href="creator.html">Creator</a>
+      </div>
+      <button class="theme-toggle" id="themeToggle">&#9789;</button>
+      <button class="hamburger" id="hamburger">&#9776;</button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="daily.html">Daily</a><a href="journal.html">Journal</a><a href="scripting.html">Scripting</a>
+      <a href="community.html">Community Spaces</a><a href="community/events.html">Events</a>
+      <a href="community/tribe.html">Tribe</a><a href="grow.html">Grow</a>
+      <a href="vision-board.html">Vision</a><a href="music.html">Music</a>
+      <a href="report.html">Reports</a><a href="creator.html">Creator</a>
+    </div>
+  </nav>
+
+  <div class="page-hero">
+    <div class="page-hero-icon">&#128101;</div>
+    <h1>Community</h1>
+    <p>Your tribe. Your circle. Share, grow, and rise together under the same cosmic sky.</p>
+  </div>
+
+  <section style="padding:20px 0 100px">
+    <div class="container">
+      <div class="hub-tabs">
+        <button class="hub-tab active" onclick="switchTab('spaces',this)">&#127760; Spaces</button>
+        <button class="hub-tab" onclick="switchTab('events',this)">&#128197; Events</button>
+        <button class="hub-tab" onclick="switchTab('tribe',this)">&#127942; Tribe</button>
+      </div>
+
+      <!-- SPACES TAB -->
+      <div class="hub-panel active" id="tab-spaces">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:32px">
+          <a href="community/spaces/introduce.html" class="glass" style="border-radius:18px;padding:24px;text-decoration:none;display:block;border-left:3px solid #9b7dea;transition:var(--transition)">
+            <div style="font-size:2rem;margin-bottom:10px">&#128075;</div>
+            <h3 style="font-weight:700;margin-bottom:6px">Introduce Yourself</h3>
+            <p style="font-size:0.85rem;color:var(--text-muted)">Tell the tribe who you are and what brings you here.</p>
+          </a>
+          <a href="community/spaces/intentions.html" class="glass" style="border-radius:18px;padding:24px;text-decoration:none;display:block;border-left:3px solid #ec4899;transition:var(--transition)">
+            <div style="font-size:2rem;margin-bottom:10px">&#127919;</div>
+            <h3 style="font-weight:700;margin-bottom:6px">Intention Board</h3>
+            <p style="font-size:0.85rem;color:var(--text-muted)">Share your goals and intentions for life, today, this month, or year.</p>
+          </a>
+          <a href="community/spaces/announcements.html" class="glass" style="border-radius:18px;padding:24px;text-decoration:none;display:block;border-left:3px solid #fbbf24;transition:var(--transition)">
+            <div style="font-size:2rem;margin-bottom:10px">&#128226;</div>
+            <h3 style="font-weight:700;margin-bottom:6px">Announcements</h3>
+            <p style="font-size:0.85rem;color:var(--text-muted)">App updates, important news and community announcements.</p>
+          </a>
+          <a href="community/spaces/gratitude-wall.html" class="glass" style="border-radius:18px;padding:24px;text-decoration:none;display:block;border-left:3px solid #4ade80;transition:var(--transition)">
+            <div style="font-size:2rem;margin-bottom:10px">&#128149;</div>
+            <h3 style="font-weight:700;margin-bottom:6px">Gratitude Wall</h3>
+            <p style="font-size:0.85rem;color:var(--text-muted)">Share what you are deeply grateful for today with the tribe.</p>
+          </a>
+          <a href="community/spaces/the-circle.html" class="glass" style="border-radius:18px;padding:24px;text-decoration:none;display:block;border-left:3px solid #60a5fa;transition:var(--transition)">
+            <div style="font-size:2rem;margin-bottom:10px">&#128336;</div>
+            <h3 style="font-weight:700;margin-bottom:6px">The Circle</h3>
+            <p style="font-size:0.85rem;color:var(--text-muted)">Open discussions, questions, insights and experiences.</p>
+          </a>
+          <a href="community/spaces/saved-posts.html" class="glass" style="border-radius:18px;padding:24px;text-decoration:none;display:block;border-left:3px solid #f472b6;transition:var(--transition)">
+            <div style="font-size:2rem;margin-bottom:10px">&#128204;</div>
+            <h3 style="font-weight:700;margin-bottom:6px">Saved Posts</h3>
+            <p style="font-size:0.85rem;color:var(--text-muted)">All your bookmarked posts across every space, in one place.</p>
+          </a>
+        </div>
+      </div>
+
+      <!-- EVENTS TAB -->
+      <div class="hub-panel" id="tab-events">
+        <div style="text-align:center;padding:40px 20px">
+          <div style="font-size:3rem;margin-bottom:16px">&#128197;</div>
+          <h3 style="font-size:1.3rem;margin-bottom:8px">Community Events &amp; Challenges</h3>
+          <p style="color:var(--text-muted);margin-bottom:24px">Create and join 30, 60, or 90 day challenges. Share articles and resources with the tribe.</p>
+          <a href="community/events.html" class="btn btn-primary">Open Events &amp; Challenges</a>
+        </div>
+      </div>
+
+      <!-- TRIBE TAB -->
+      <div class="hub-panel" id="tab-tribe">
+        <div style="text-align:center;padding:40px 20px">
+          <div style="font-size:3rem;margin-bottom:16px">&#127942;</div>
+          <h3 style="font-size:1.3rem;margin-bottom:8px">The Tribe Leaderboard</h3>
+          <p style="color:var(--text-muted);margin-bottom:24px">Members ranked automatically by their gratitude coin count. Your consistency shows here.</p>
+          <a href="community/tribe.html" class="btn btn-primary">View Full Leaderboard</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="js/app.js"></script>
+  <script src="js/coins.js"></script>
+  <script>
+    function switchTab(id, btn) {
+      document.querySelectorAll('.hub-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.hub-tab').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-'+id).classList.add('active');
+      btn.classList.add('active');
+    }
+    // Dropdown toggle for mobile
+    document.querySelectorAll('.nav-dropdown > a').forEach(a => {
+      a.addEventListener('click', e => {
+        if (window.innerWidth <= 768) { e.preventDefault(); a.parentElement.classList.toggle('open'); }
+      });
+    });
+  </script>
+</body>
+</html>

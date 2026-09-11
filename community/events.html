@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events & Challenges - Cosmos Gratitude</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(5px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-content {
+      width: 90%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 2rem;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: rgba(255,255,255,0.05);
+      color: white;
+    }
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .calendar-day {
+      padding: 8px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.05);
+      position: relative;
+    }
+    .calendar-day.has-event::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--primary-color);
+    }
+  </style>
+</head>
+<body class="dark-theme">
+  <div class="stars" id="stars"></div>
+  
+  <nav class="navbar" id="navbar"><div class="nav-inner">
+    <a href="../index.html" class="nav-logo"><div class="logo-icon">&#10022;</div><span>Cosmos</span></a>
+    <div class="nav-links">
+      <a href="../daily.html">Daily</a>
+      <div class="nav-dropdown"><a href="../community.html" class="active">Community</a>
+        <div class="dropdown-menu">
+          <a href="../community.html"><span class="dm-icon">&#128101;</span>Spaces</a>
+          <a href="../community/events.html"><span class="dm-icon">&#128197;</span>Events</a>
+          <a href="../community/tribe.html"><span class="dm-icon">&#127942;</span>Tribe</a>
+        </div>
+      </div>
+      <div class="nav-dropdown"><a href="../grow.html">Grow</a>
+        <div class="dropdown-menu">
+          <a href="../grow.html"><span class="dm-icon">&#129680;</span>Practices</a>
+          <a href="../grow.html?tab=courses"><span class="dm-icon">&#127891;</span>Courses</a>
+        </div>
+      </div>
+    </div>
+    <button class="theme-toggle" id="themeToggle">&#9789;</button>
+    <button class="hamburger" id="hamburger">&#9776;</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../community.html">Community</a><a href="../grow.html">Grow</a>
+  </div></nav>
+
+  <main class="container">
+    <a href="../community.html" class="btn btn-ghost btn-sm" style="margin-top: 2rem;">&larr; Back to Community</a>
+    
+    <div class="page-hero glass">
+      <div class="hero-icon">&#128197;</div>
+      <h1>Events & Challenges</h1>
+      <p>Create and join community challenges, articles and workshops. Your growth, witnessed by the tribe.</p>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; margin-bottom: 1rem;">
+      <h2 class="section-label">Community Events</h2>
+      <button class="btn btn-primary btn-sm" onclick="openModal()">Create Event</button>
+    </div>
+
+    <div class="glass" style="margin-bottom: 2rem;">
+      <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">This Month</h3>
+      <div id="miniCal" class="calendar-grid"></div>
+    </div>
+
+    <div id="eventsList" style="display: flex; flex-direction: column; gap: 1rem;"></div>
+  </main>
+
+  <div class="modal-overlay" id="eventModal">
+    <div class="modal-content glass">
+      <h2 style="margin-bottom: 1rem;">Create Event</h2>
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" id="evTitle" placeholder="e.g. 30 Days of Meditation">
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="evDesc" rows="3" placeholder="Describe the event..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <select id="evCategory">
+          <option value="Challenge">Challenge</option>
+          <option value="Article">Article</option>
+          <option value="Workshop">Workshop</option>
+          <option value="Resource">Resource</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Duration</label>
+        <select id="evDuration" onchange="document.getElementById('evCustomDaysDiv').style.display = this.value === 'Custom' ? 'block' : 'none'">
+          <option value="30 Days">30 Days</option>
+          <option value="60 Days">60 Days</option>
+          <option value="90 Days">90 Days</option>
+          <option value="Custom">Custom</option>
+        </select>
+      </div>
+      <div class="form-group" id="evCustomDaysDiv" style="display:none;">
+        <label>Custom Days</label>
+        <input type="number" id="evCustomDays" min="1" value="14">
+      </div>
+      <div class="form-group">
+        <label>Start Date</label>
+        <input type="date" id="evStartDate">
+      </div>
+      <div class="form-group">
+        <label>Cover Image (Optional)</label>
+        <input type="file" id="evImage" accept="image/*">
+      </div>
+      <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
+        <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="submitEvent()">Create Event</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand"><div class="logo-icon">&#10022;</div><span>Cosmos Gratitude</span></div>
+      <p class="footer-copy">&copy; 2026 Cosmos Gratitude</p>
+    </div>
+  </footer>
+
+  <script src="../js/app.js"></script>
+  <script src="../js/coins.js"></script>
+  <script src="../js/community.js"></script>
+  <script>
+    const EVENTS_KEY = 'cosmos-events';
+
+    function getEvents() {
+      return JSON.parse(localStorage.getItem(EVENTS_KEY) || '[]');
+    }
+
+    function saveEvents(arr) {
+      localStorage.setItem(EVENTS_KEY, JSON.stringify(arr));
+    }
+
+    function categoryIcon(cat) {
+      return {Challenge:'&#127942;', Article:'&#128218;', Workshop:'&#128101;', Resource:'&#128279;'}[cat] || '&#127760;';
+    }
+
+    function joinEvent(id, btn) {
+      const joinKey = `cosmos-event-joined-${id}`;
+      const isJoined = localStorage.getItem(joinKey) === 'true';
+      const events = getEvents();
+      const ev = events.find(e => e.id === id);
+      
+      if(!ev) return;
+
+      if(isJoined) {
+        localStorage.removeItem(joinKey);
+        ev.participants = Math.max(0, (ev.participants || 1) - 1);
+        btn.textContent = 'Join';
+        btn.classList.remove('joined');
+      } else {
+        localStorage.setItem(joinKey, 'true');
+        ev.participants = (ev.participants || 0) + 1;
+        btn.textContent = 'Joined';
+        btn.classList.add('joined');
+      }
+      
+      saveEvents(events);
+      renderEvents();
+    }
+
+    function openModal() {
+      document.getElementById('eventModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('eventModal').classList.remove('active');
+    }
+
+    function submitEvent() {
+      const title = document.getElementById('evTitle').value.trim();
+      const desc = document.getElementById('evDesc').value.trim();
+      const cat = document.getElementById('evCategory').value;
+      let dur = document.getElementById('evDuration').value;
+      if(dur === 'Custom') {
+        dur = document.getElementById('evCustomDays').value + ' Days';
+      }
+      const start = document.getElementById('evStartDate').value;
+      const fileInput = document.getElementById('evImage');
+
+      if(!title || !desc || !start) {
+        if(window.showToast) showToast('Please fill all required fields');
+        return;
+      }
+
+      const createAndSave = (imgData) => {
+        const events = getEvents();
+        const newEvent = {
+          id: 'ev_' + Date.now(),
+          title: title,
+          description: desc,
+          category: cat,
+          duration: dur,
+          startDate: start,
+          image: imgData,
+          creator: window.Community ? Community.getMyName() : 'You',
+          participants: 0
+        };
+        events.unshift(newEvent);
+        saveEvents(events);
+        closeModal();
+        renderEvents();
+        renderMiniCal();
+        if(window.awardCoins) awardCoins(5, 'Event Created');
+        if(window.showToast) showToast('Event created successfully!');
+      };
+
+      if(fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (e) => createAndSave(e.target.result);
+        reader.readAsDataURL(fileInput.files[0]);
+      } else {
+        createAndSave(null);
+      }
+    }
+
+    function renderEvents() {
+      const events = getEvents();
+      const list = document.getElementById('eventsList');
+      list.innerHTML = '';
+      
+      if(events.length === 0) {
+        list.innerHTML = '<div class="glass" style="text-align:center;padding:2rem;">No events yet. Be the first to create one!</div>';
+        return;
+      }
+
+      events.forEach(ev => {
+        const isJoined = localStorage.getItem(`cosmos-event-joined-${ev.id}`) === 'true';
+        const imgHtml = ev.image ? `<img src="${ev.image}" style='width:100%;border-radius:12px;margin-bottom:12px;max-height:200px;object-fit:cover'>` : '';
+        
+        const html = `
+          <div class="event-card glass">
+            <div class="event-header" style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;">
+              <div class="event-icon" style="font-size:2rem;">${categoryIcon(ev.category)}</div>
+              <div style="flex:1">
+                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:4px">
+                  <h3 style="font-weight:700;font-size:1.1rem;margin:0;">${ev.title}</h3>
+                  <span class="event-duration-badge tag-chip" style="font-size:0.7rem;padding:2px 6px;">${ev.duration}</span>
+                </div>
+                <p style="font-size:0.8rem;color:var(--text-muted);margin:0;">by ${ev.creator} &middot; Starts ${ev.startDate}</p>
+              </div>
+              <button class="event-join-btn btn ${isJoined ? 'btn-ghost' : 'btn-primary'} btn-sm" onclick="joinEvent('${ev.id}', this)">
+                ${isJoined ? 'Joined' : 'Join'}
+              </button>
+            </div>
+            ${imgHtml}
+            <p style="font-size:0.88rem;color:var(--text-secondary);margin-bottom:0;">${ev.description}</p>
+            <div style="display:flex;gap:8px;margin-top:12px">
+              <span class="tag-chip">${ev.category}</span>
+              <span style="font-size:0.78rem;color:var(--text-muted);display:flex;align-items:center;">${ev.participants || 0} participants</span>
+            </div>
+          </div>
+        `;
+        list.insertAdjacentHTML('beforeend', html);
+      });
+    }
+
+    function renderMiniCal() {
+      const cal = document.getElementById('miniCal');
+      cal.innerHTML = '';
+      const events = getEvents();
+      
+      const now = new Date();
+      const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+      
+      for(let i = 1; i <= daysInMonth; i++) {
+        const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
+        const hasEvent = events.some(e => e.startDate === dateStr);
+        
+        cal.insertAdjacentHTML('beforeend', `
+          <div class="calendar-day ${hasEvent ? 'has-event' : ''}">
+            ${i}
+          </div>
+        `);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Set default start date to today
+      document.getElementById('evStartDate').value = new Date().toISOString().split('T')[0];
+      
+      renderEvents();
+      renderMiniCal();
+      
+      // Mobile menu toggle
+      const hamburger = document.getElementById('hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      if(hamburger && mobileMenu) {
+        hamburger.addEventListener('click', () => {
+          mobileMenu.classList.toggle('active');
+        });
+      }
+    });
+  </script>
+</body>
+</html>

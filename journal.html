@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gratitude Journal | Cosmos</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    .entry-list { display:flex;flex-direction:column;gap:12px;margin-top:8px; }
+    .entry-item { padding:16px 20px;border-radius:12px;border:1px solid var(--border-glass);background:var(--bg-glass);display:flex;justify-content:space-between;align-items:flex-start;gap:12px; }
+    .entry-item p { font-size:0.9rem;color:var(--text-secondary);line-height:1.6;flex:1; }
+    .entry-item .entry-meta { font-size:0.75rem;color:var(--text-muted);white-space:nowrap; }
+    .entry-delete { background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:1rem;padding:4px;transition:color 0.2s; }
+    .entry-delete:hover { color:#f87171; }
+    .empty-state { text-align:center;padding:40px;color:var(--text-muted);font-size:0.9rem; }
+  </style>
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><div class="logo-icon">&#10022;</div><span>Cosmos</span></a>
+      <div class="nav-links">
+        <a href="daily.html">Daily</a><a href="categories.html">Explore</a><a href="journal.html" class="active">Journal</a>
+        <a href="scripting.html">Scripting</a><a href="vision-board.html">Vision</a>
+        <a href="music.html">Music</a><a href="calendar.html">Calendar</a>
+        <a href="challenges.html">Challenges</a><a href="report.html">Reports</a><a href="creator.html">Creator</a>
+        <div class="nav-dropdown">
+          <a href="community.html">Community &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="community.html"><span class="dm-icon">&#128101;</span>Spaces</a>
+            <a href="community/events.html"><span class="dm-icon">&#128197;</span>Events</a>
+            <a href="community/tribe.html"><span class="dm-icon">&#127942;</span>Tribe</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="grow.html">Grow &#9662;</a>
+          <div class="dropdown-menu">
+            <a href="grow.html"><span class="dm-icon">&#129680;</span>Practices</a>
+            <a href="grow.html?tab=courses"><span class="dm-icon">&#127891;</span>Courses</a>
+            <a href="challenges.html"><span class="dm-icon">&#127942;</span>Challenges</a>
+          </div>
+        </div>
+      </div>
+      <button class="theme-toggle" id="themeToggle">&#9789;</button>
+      <button class="hamburger" id="hamburger">&#9776;</button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="daily.html">Daily Practice</a><a href="categories.html">Explore</a>
+      <a href="journal.html">Journal</a><a href="scripting.html">Scripting</a>
+    </div>
+  </nav>
+
+  <div class="page-hero">
+    <div class="page-hero-icon">&#128218;</div>
+    <h1>Gratitude Journal</h1>
+    <p>Your sacred space for daily reflection, gratitude, and mindful growth. Every entry is a step toward transformation.</p>
+  </div>
+
+  <section class="journal-section">
+    <div class="container">
+      <div class="journal-layout">
+        <div class="journal-main">
+          <!-- Today's Date -->
+          <div class="journal-card glass">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+              <h2 style="font-family:var(--font-display);font-size:1.4rem" id="todayDate">Loading...</h2>
+              <div class="streak-display" style="text-align:right;padding:0">
+                <div class="streak-num" style="font-size:1.8rem" id="streakCount">0</div>
+                <div class="streak-label">day streak</div>
+              </div>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+            <p style="font-size:0.75rem;color:var(--text-muted);margin-top:6px" id="progressLabel">Complete your journal to fill your cosmos</p>
+          </div>
+
+          <!-- Gratitude List -->
+          <div class="journal-card glass">
+            <h3>&#10024; Today I am grateful for...</h3>
+            <div class="gratitude-items" id="gratitudeList">
+              <div class="gratitude-item"><div class="gratitude-num">1</div><input class="gratitude-input" type="text" placeholder="Something or someone you appreciate..." oninput="updateProgress()" /></div>
+              <div class="gratitude-item"><div class="gratitude-num">2</div><input class="gratitude-input" type="text" placeholder="A moment that made you smile today..." oninput="updateProgress()" /></div>
+              <div class="gratitude-item"><div class="gratitude-num">3</div><input class="gratitude-input" type="text" placeholder="Something about yourself you appreciate..." oninput="updateProgress()" /></div>
+              <div class="gratitude-item"><div class="gratitude-num">4</div><input class="gratitude-input" type="text" placeholder="A simple pleasure you enjoyed..." oninput="updateProgress()" /></div>
+              <div class="gratitude-item"><div class="gratitude-num">5</div><input class="gratitude-input" type="text" placeholder="Something in nature or your environment..." oninput="updateProgress()" /></div>
+            </div>
+          </div>
+
+          <!-- Reflection -->
+          <div class="journal-card glass">
+            <h3>&#127775; Daily Reflection</h3>
+            <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:16px">What made today meaningful? What did you learn? How did you grow?</p>
+            <textarea class="journal-textarea" id="reflectionText" placeholder="Write freely here... there are no rules. Just let your thoughts flow with gratitude." oninput="updateProgress()"></textarea>
+          </div>
+
+          <!-- Intention -->
+          <div class="journal-card glass">
+            <h3>&#127748; Tomorrow's Intention</h3>
+            <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:16px">What one thing will you do tomorrow to move closer to your dreams?</p>
+            <textarea class="journal-textarea" id="intentionText" style="min-height:100px" placeholder="My intention for tomorrow is..." oninput="updateProgress()"></textarea>
+          </div>
+
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="saveEntry()">&#128190; Save Today's Entry</button>
+            <button class="btn btn-ghost btn-sm" onclick="exportJournalTxt()">&#128196; Export TXT</button>
+            <button class="btn btn-ghost btn-sm" onclick="window.print()">&#128438; Print/PDF</button>
+            <button class="btn btn-ghost" onclick="clearToday()">&#8635; Clear</button>
+          </div>
+
+          <!-- Past Entries -->
+          <div class="journal-card glass">
+            <h3>&#128203; Past Entries</h3>
+            <div class="entry-list" id="entryList">
+              <div class="empty-state">&#127775; Your gratitude journey starts here. Save today's entry!</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="journal-sidebar">
+          <!-- Mood Tracker -->
+          <div class="sidebar-card glass">
+            <h3>&#127775; Today's Mood</h3>
+            <div class="mood-grid" id="moodGrid">
+              <button class="mood-btn" onclick="setMood(this,'&#128513;')" title="Joyful">&#128513;</button>
+              <button class="mood-btn" onclick="setMood(this,'&#128522;')" title="Content">&#128522;</button>
+              <button class="mood-btn" onclick="setMood(this,'&#128591;')" title="Grateful">&#128591;</button>
+              <button class="mood-btn" onclick="setMood(this,'&#129488;')" title="Peaceful">&#129488;</button>
+              <button class="mood-btn" onclick="setMood(this,'&#128149;')" title="Loved">&#128149;</button>
+              <button class="mood-btn" onclick="setMood(this,'&#128526;')" title="Inspired">&#128526;</button>
+              <button class="mood-btn" onclick="setMood(this,'&#128517;')" title="Happy">&#128517;</button>
+              <button class="mood-btn" onclick="setMood(this,'&#129310;')" title="Neutral">&#129310;</button>
+              <button class="mood-btn" onclick="setMood(this,'&#128532;')" title="Tired">&#128532;</button>
+              <button class="mood-btn" onclick="setMood(this,'&#129300;')" title="Anxious">&#129300;</button>
+            </div>
+            <p id="moodLabel" style="text-align:center;font-size:0.8rem;color:var(--text-muted);margin-top:12px">Select your mood</p>
+          </div>
+
+          <!-- Daily Prompt -->
+          <div class="sidebar-card glass">
+            <h3>&#9997; Today's Prompt</h3>
+            <p id="dailyPrompt" style="font-style:italic;color:var(--text-secondary);font-size:0.9rem;line-height:1.7;margin-bottom:16px">Loading prompt...</p>
+            <button class="btn btn-ghost btn-sm" onclick="newPrompt()" style="width:100%">New Prompt &#10022;</button>
+          </div>
+
+          <!-- Affirmation of the Day -->
+          <div class="sidebar-card glass">
+            <h3>&#10024; Affirmation</h3>
+            <p id="sidebarAff" style="font-family:var(--font-display);font-style:italic;font-size:0.95rem;line-height:1.7;color:var(--text-primary);margin-bottom:16px">I am grateful for all the abundance in my life.</p>
+            <button class="btn btn-ghost btn-sm" onclick="newSidebarAff()" style="width:100%">New Affirmation</button>
+          </div>
+
+          <!-- Quick Stats -->
+          <div class="sidebar-card glass">
+            <h3>&#128202; Your Stats</h3>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <span style="font-size:0.85rem;color:var(--text-secondary)">Total Entries</span>
+                <strong id="totalEntries">0</strong>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <span style="font-size:0.85rem;color:var(--text-secondary)">This Week</span>
+                <strong id="weekEntries">0</strong>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <span style="font-size:0.85rem;color:var(--text-secondary)">Best Streak</span>
+                <strong id="bestStreak" style="color:var(--accent-purple)">0 days</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand"><div class="logo-icon">&#10022;</div><span>Cosmos Gratitude</span></div>
+      <div class="footer-links"><a href="index.html">Home</a><a href="daily.html">Daily</a><a href="scripting.html">Scripting</a></div>
+      <p class="footer-copy">&copy; 2026 Cosmos Gratitude App</p>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script src="js/coins.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/journal.js"></script>
+<script>
+document.querySelectorAll(".nav-dropdown > a").forEach(function(a){
+  a.addEventListener("click",function(e){if(window.innerWidth<=900){e.preventDefault();a.parentElement.classList.toggle("open");}});
+});
+</script>
+</body>
+</html>
+
+

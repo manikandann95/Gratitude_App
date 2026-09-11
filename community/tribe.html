@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Tribe - Cosmos Gratitude</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .tribe-row {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.05);
+      margin-bottom: 8px;
+    }
+    .tribe-row.rank-1 { background: linear-gradient(90deg, rgba(255,215,0,0.1), transparent); border-left: 3px solid gold; }
+    .tribe-row.rank-2 { background: linear-gradient(90deg, rgba(192,192,192,0.1), transparent); border-left: 3px solid silver; }
+    .tribe-row.rank-3 { background: linear-gradient(90deg, rgba(205,127,50,0.1), transparent); border-left: 3px solid #cd7f32; }
+    
+    .tribe-rank { width: 40px; font-weight: bold; font-size: 1.2rem; text-align: center; }
+    .tribe-info { flex: 1; margin-left: 1rem; }
+    .tribe-info .tname { font-weight: 600; font-size: 1.1rem; }
+    .tribe-info .tsub { font-size: 0.8rem; color: var(--text-muted); }
+    .tribe-coins { font-weight: 600; color: gold; }
+    
+    .stats-row { display: flex; gap: 1rem; margin-bottom: 2rem; overflow-x: auto; }
+    .stat-card { flex: 1; min-width: 120px; padding: 1.5rem; text-align: center; }
+    .stat-val { font-size: 2rem; font-weight: bold; margin-bottom: 0.5rem; color: var(--primary-color); }
+    .stat-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; }
+
+    .podium-section { display: flex; justify-content: center; align-items: flex-end; gap: 1rem; margin-bottom: 3rem; height: 180px;}
+    .podium-spot { display: flex; flex-direction: column; align-items: center; }
+    .podium-spot .avatar-circle { width: 60px; height: 60px; font-size: 1.5rem; margin-bottom: 8px; }
+    .podium-spot.rank-1 .avatar-circle { width: 80px; height: 80px; font-size: 2rem; border: 3px solid gold; box-shadow: 0 0 15px gold;}
+    .podium-spot .tname { font-weight: bold; font-size: 0.9rem; text-align: center; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
+      display: none; justify-content: center; align-items: center; z-index: 1000;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-content { width: 90%; max-width: 400px; padding: 2rem; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; }
+    .form-group input { width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--border-color); background: rgba(255,255,255,0.05); color: white; }
+  </style>
+</head>
+<body class="dark-theme">
+  <div class="stars" id="stars"></div>
+  
+  <nav class="navbar" id="navbar"><div class="nav-inner">
+    <a href="../index.html" class="nav-logo"><div class="logo-icon">&#10022;</div><span>Cosmos</span></a>
+    <div class="nav-links">
+      <a href="../daily.html">Daily</a>
+      <div class="nav-dropdown"><a href="../community.html" class="active">Community</a>
+        <div class="dropdown-menu">
+          <a href="../community.html"><span class="dm-icon">&#128101;</span>Spaces</a>
+          <a href="../community/events.html"><span class="dm-icon">&#128197;</span>Events</a>
+          <a href="../community/tribe.html"><span class="dm-icon">&#127942;</span>Tribe</a>
+        </div>
+      </div>
+      <div class="nav-dropdown"><a href="../grow.html">Grow</a>
+        <div class="dropdown-menu">
+          <a href="../grow.html"><span class="dm-icon">&#129680;</span>Practices</a>
+          <a href="../grow.html?tab=courses"><span class="dm-icon">&#127891;</span>Courses</a>
+        </div>
+      </div>
+    </div>
+    <button class="theme-toggle" id="themeToggle">&#9789;</button>
+    <button class="hamburger" id="hamburger">&#9776;</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../community.html">Community</a><a href="../grow.html">Grow</a>
+  </div></nav>
+
+  <main class="container">
+    <a href="../community.html" class="btn btn-ghost btn-sm" style="margin-top: 2rem;">&larr; Back to Community</a>
+    
+    <div class="page-hero glass">
+      <div class="hero-icon">&#127942;</div>
+      <h1>The Tribe</h1>
+      <p>Members ranked by their daily gratitude coins. Your consistency is your crown.</p>
+    </div>
+
+    <div class="stats-row" id="statsRow">
+      <div class="stat-card glass">
+        <div class="stat-val" id="statMembers">0</div>
+        <div class="stat-label">Total Members</div>
+      </div>
+      <div class="stat-card glass">
+        <div class="stat-val" id="statCoins">0</div>
+        <div class="stat-label">Total Coins</div>
+      </div>
+      <div class="stat-card glass">
+        <div class="stat-val" id="statStreak">0</div>
+        <div class="stat-label">Top Streak</div>
+      </div>
+    </div>
+
+    <div id="podiumContainer" class="podium-section" style="display:none;"></div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+      <h2 class="section-label">Leaderboard</h2>
+      <button class="btn btn-ghost btn-sm" onclick="openAddModal()">+ Add Member</button>
+    </div>
+
+    <div id="tribeList"></div>
+  </main>
+
+  <div class="modal-overlay" id="addMemberModal">
+    <div class="modal-content glass">
+      <h2 style="margin-bottom: 1rem;">Add Member (Demo)</h2>
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" id="amName" placeholder="Cosmic Wanderer">
+      </div>
+      <div class="form-group">
+        <label>Starting Coins</label>
+        <input type="number" id="amCoins" value="100">
+      </div>
+      <div class="form-group">
+        <label>Current Streak (Days)</label>
+        <input type="number" id="amStreak" value="5">
+      </div>
+      <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
+        <button class="btn btn-ghost" onclick="closeAddModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="submitMember()">Add</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand"><div class="logo-icon">&#10022;</div><span>Cosmos Gratitude</span></div>
+      <p class="footer-copy">&copy; 2026 Cosmos Gratitude</p>
+    </div>
+  </footer>
+
+  <script src="../js/app.js"></script>
+  <script src="../js/coins.js"></script>
+  <script src="../js/community.js"></script>
+  <script>
+    const MEMBERS_KEY = 'cosmos-tribe-members';
+    const medals = {1:'&#129351;', 2:'&#129352;', 3:'&#129353;'};
+
+    function getCurrentUser() {
+      const name = localStorage.getItem('cosmos-my-username') || 'You';
+      let color = localStorage.getItem('cosmos-my-color');
+      if(!color && window.Community) color = Community.hashColor(name);
+      
+      return {
+        id: 'current-user',
+        name: name,
+        coins: parseInt(localStorage.getItem('cosmos-coins') || '0'),
+        streak: parseInt(localStorage.getItem('cosmos-streak') || '0'),
+        joinDate: 'Today',
+        color: color || '#9b7dea'
+      };
+    }
+
+    function getMembers() {
+      let members = JSON.parse(localStorage.getItem(MEMBERS_KEY) || '[]');
+      
+      // Update or add current user
+      const cu = getCurrentUser();
+      const cuIndex = members.findIndex(m => m.id === 'current-user');
+      
+      if(cuIndex >= 0) {
+        members[cuIndex] = cu;
+      } else {
+        members.push(cu);
+      }
+      return members;
+    }
+
+    function saveMembers(arr) {
+      localStorage.setItem(MEMBERS_KEY, JSON.stringify(arr));
+    }
+
+    function openAddModal() {
+      document.getElementById('addMemberModal').classList.add('active');
+    }
+
+    function closeAddModal() {
+      document.getElementById('addMemberModal').classList.remove('active');
+    }
+
+    function addMember(name, coins, streak) {
+      const members = getMembers();
+      members.push({
+        id: 'm_' + Date.now(),
+        name: name,
+        coins: parseInt(coins),
+        streak: parseInt(streak),
+        joinDate: 'Today',
+        color: window.Community ? Community.hashColor(name) : '#888'
+      });
+      saveMembers(members);
+      renderAll();
+    }
+
+    function submitMember() {
+      const name = document.getElementById('amName').value.trim();
+      const coins = document.getElementById('amCoins').value;
+      const streak = document.getElementById('amStreak').value;
+      if(!name) return;
+      addMember(name, coins, streak);
+      closeAddModal();
+      document.getElementById('amName').value = '';
+    }
+
+    function renderAll() {
+      const members = getMembers();
+      members.sort((a,b) => b.coins - a.coins);
+      
+      renderStats(members);
+      renderPodium(members);
+      renderLeaderboard(members);
+    }
+
+    function renderStats(members) {
+      document.getElementById('statMembers').textContent = members.length;
+      document.getElementById('statCoins').textContent = members.reduce((sum, m) => sum + m.coins, 0);
+      document.getElementById('statStreak').textContent = Math.max(...members.map(m => m.streak), 0);
+    }
+
+    function renderPodium(members) {
+      const container = document.getElementById('podiumContainer');
+      if(members.length < 3) {
+        container.style.display = 'none';
+        return;
+      }
+      container.style.display = 'flex';
+      
+      // Order: 2, 1, 3 for visual podium
+      const top3 = [
+        {m: members[1], rank: 2, height: '100px'},
+        {m: members[0], rank: 1, height: '130px'},
+        {m: members[2], rank: 3, height: '80px'}
+      ];
+      
+      container.innerHTML = top3.map(item => `
+        <div class="podium-spot rank-${item.rank}" style="margin-bottom: ${item.rank===1 ? '20px' : '0'}">
+          <div style="font-size:1.5rem;margin-bottom:4px;">${medals[item.rank]}</div>
+          <div class="avatar-circle" style="background:${item.m.color}">${item.m.name.charAt(0).toUpperCase()}</div>
+          <div class="tname">${item.m.name}</div>
+          <div class="tribe-coins" style="font-size:0.8rem">&#128176; ${item.m.coins}</div>
+        </div>
+      `).join('');
+    }
+
+    function renderLeaderboard(members) {
+      const list = document.getElementById('tribeList');
+      list.innerHTML = '';
+      
+      members.forEach((m, index) => {
+        const rank = index + 1;
+        const isCurrentUser = m.id === 'current-user';
+        const initial = m.name.charAt(0).toUpperCase();
+        const rankHtml = rank <= 3 ? medals[rank] : rank;
+        
+        const html = `
+          <div class="tribe-row ${rank <= 3 ? 'rank-'+rank : ''}" id="tr-${m.id}">
+            <div class="tribe-rank">${rankHtml}</div>
+            <div class="avatar-circle" style="background:${m.color}">${initial}</div>
+            <div class="tribe-info">
+              <div class="tname">${m.name} ${isCurrentUser ? '<span style="color:var(--primary-color);font-size:0.9rem">(You)</span>' : ''}</div>
+              <div class="tsub">Joined ${m.joinDate} &middot; ${m.streak}d streak</div>
+            </div>
+            <div class="tribe-coins">&#128176; ${m.coins}</div>
+          </div>
+        `;
+        list.insertAdjacentHTML('beforeend', html);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderAll();
+      
+      // Mobile menu toggle
+      const hamburger = document.getElementById('hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      if(hamburger && mobileMenu) {
+        hamburger.addEventListener('click', () => {
+          mobileMenu.classList.toggle('active');
+        });
+      }
+    });
+  </script>
+</body>
+</html>
